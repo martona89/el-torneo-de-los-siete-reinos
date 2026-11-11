@@ -362,7 +362,7 @@ function renderAlbumGallery(targetId, rows, allowDelete=false){
     if(!dayRows.length) return "";
     return `<h3 class="album-day-title">${albumDayLabel(day)}</h3><div class="album-grid">${dayRows.map(p=>`
       <article class="album-photo">
-        <a href="${esc(p.signed_url)}" target="_blank" rel="noopener"><img src="${esc(p.signed_url)}" loading="lazy" alt="Fotografía del ${albumDayLabel(p.album_day)}"></a>
+        <a href="${esc(p.signed_url)}" target="_blank" rel="noopener"><img src="${esc(p.signed_url)}" loading="eager" decoding="async" alt="Fotografía del ${albumDayLabel(p.album_day)}"></a>
         <div class="album-photo-info">
           <div class="tag">${albumDayLabel(p.album_day)} · ${new Date(p.created_at).toLocaleString("es-ES",{dateStyle:"short",timeStyle:"short"})}</div>
           ${p.caption?`<div>${esc(p.caption)}</div>`:""}
@@ -377,6 +377,8 @@ function renderAlbumGallery(targetId, rows, allowDelete=false){
   }
 }
 async function loadAlbum(){
+  activeAlbumDay = "todos";
+  document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));
   $("albumGallery").innerHTML = '<div class="notice">Cargando el álbum…</div>';
   const token = albumIdentityToken();
   $("albumIdentity").textContent = token
