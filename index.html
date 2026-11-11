@@ -390,7 +390,7 @@ async function loadAlbum(){
     $("albumGoProfile").onclick=()=>showSection("perfil");
     return;
   }
-  $("albumUploadPhotos").disabled = !token;
+  $("uploadAlbumPhotos").disabled = !token;
   $("albumUploadPhotos").title = token ? "" : "Para subir fotografías debes identificarte como participante.";
   try{
     const rows = await fetchAlbumPhotos(isAdmin);
