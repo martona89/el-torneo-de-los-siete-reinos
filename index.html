@@ -417,6 +417,7 @@ const AWARD_CATEGORIES = [
  {id:"best_costume",title:"Mejor disfraz",emoji:"🏆",mode:"vote"},
  {id:"most_missions",title:"Más misiones realizadas",emoji:"🕵️",mode:"automatic"},
  {id:"winning_house",title:"Casa vencedora del torneo",emoji:"🐉",mode:"automatic"},
+ {id:"weekend_champion",title:"Campeón de los Siete Reinos",emoji:"👑",mode:"automatic"},
  {id:"funniest",title:"Premio al más divertido",emoji:"😂",mode:"vote"},
  {id:"best_singer",title:"Mejor cantante",emoji:"🎤",mode:"vote"},
  {id:"house_helper",title:"El que más coopera en la casa",emoji:"🐺",mode:"vote"}
@@ -436,7 +437,9 @@ async function loadAwardsData(){
  const token=currentProfileToken();if(!token){$("awardsCards").innerHTML='<div class="card"><p class="muted">Identifícate desde «Mi perfil» para consultar y votar en los Premios de Poniente.</p><button class="primary small" id="awardsIdentify">Ir a Mi perfil</button></div>';$("awardsIdentify").onclick=()=>{showSection("perfil");showProfileEntry()};return}
  const {data,error}=await sb.rpc("get_awards_data",{p_profile_token:token});
  if(error||!data?.ok){$("awardsCards").innerHTML=`<div class="notice bad">No se pudieron cargar los premios: ${esc(error?.message||data?.message||"Error desconocido")}</div>`;return}
- awardsData=data;renderAwardsCards();renderAwardBallots();
+ awardsData=data;
+ if(data.revealed){const champion=await sb.rpc("get_weekend_champion",{p_profile_token:token});if(!champion.error&&champion.data?.ok){awardsData.results={...(awardsData.results||{}),weekend_champion:champion.data.winners||[]}}}
+ renderAwardsCards();renderAwardBallots();
 }
 function renderAwardsCards(){
  const released=!!awardsData?.revealed;
@@ -449,6 +452,7 @@ function renderAwardsCards(){
    body=rows.length?rows.map((r,i)=>`<div class="award-winner"><span class="award-rank">${c.mode==="vote"?"TOP "+(i+1):"GANADOR"}</span><strong>${esc(r.label||r.name||r.house||"")}</strong>${r.points!==undefined?`<span class="points" style="float:right">${esc(r.points)} pts</span>`:""}${r.votes!==undefined?`<div class="tag">${r.votes} votos ponderados</div>`:""}</div>`).join(""):'<div class="muted">Sin resultado disponible.</div>';
   }else if(c.id==="winning_house"){body='<div class="muted">Se calculará con los puntos colectivos acumulados por cada casa.</div>'}
   else if(c.id==="most_missions"){body='<div class="muted">Se calculará automáticamente según las misiones completadas.</div>'}
+  else if(c.id==="weekend_champion"){body='<div class="muted">Se decidirá sumando los puntos individuales obtenidos durante el fin de semana. No cuentan los puntos colectivos de las casas.</div>'}
   return `<article class="award-card"><div class="tag">${c.emoji} ${c.mode==="vote"?"VOTACIÓN TOP 3":"RESULTADO AUTOMÁTICO"}</div><h3>${c.title}</h3>${body}</article>`;
  }).join("");
 }
