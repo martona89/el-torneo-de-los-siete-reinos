@@ -66,11 +66,24 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 .agenda-countdown{display:inline-flex;align-items:center;gap:5px;margin-top:7px;padding:4px 7px;border:1px solid #8d704477;border-radius:5px;background:#b18b3b12;color:var(--gold2);font:500 9px Inter,sans-serif;letter-spacing:.025em}.agenda-countdown-label{color:var(--muted);font-size:9px}.agenda-countdown-value{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}.agenda-countdown.done{border-color:#8d7044;color:#d9c18d}
 @media(max-width:600px){.agenda-day summary{padding:14px 12px;gap:9px}.agenda-day-icon{font-size:25px;width:34px}.agenda-day-name strong{font-size:16px}.agenda-events{padding:0 12px 12px 14px}.agenda-event{grid-template-columns:27px minmax(0,1fr);gap:8px}.agenda-time{grid-column:2;padding-top:0}.agenda-event-icon{font-size:18px}}
 
+
+/* El torneo: rondas y pruebas desplegables */
+.tournament-intro{text-align:center;max-width:760px;margin:0 auto 22px;color:var(--muted);line-height:1.6}
+.tournament-rounds{display:grid;gap:13px;max-width:900px;margin:0 auto}
+.tournament-round{background:linear-gradient(145deg,#211e1a,#171513);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.tournament-round[open]{border-color:#8d7044;box-shadow:0 8px 25px #0003}
+.tournament-round>summary{display:flex;align-items:center;gap:13px;padding:17px 19px;cursor:pointer;list-style:none}
+.tournament-round>summary::-webkit-details-marker,.tournament-test>summary::-webkit-details-marker{display:none}
+.tournament-round-icon{font-size:26px}.tournament-round-heading{display:flex;flex-direction:column;gap:4px;flex:1}.tournament-round-heading strong{font:600 16px Cinzel,serif;color:var(--gold2)}.tournament-round-heading small{font-size:11px;color:var(--muted)}
+.tournament-chevron{color:var(--gold);font-size:20px;transition:transform .2s}.tournament-round[open]>summary .tournament-chevron,.tournament-test[open]>summary .tournament-chevron{transform:rotate(180deg)}
+.tournament-tests{padding:0 16px 15px 58px}.tournament-test{border-top:1px solid #51433166}.tournament-test>summary{display:flex;align-items:center;gap:10px;padding:13px 4px;cursor:pointer;list-style:none;color:var(--gold2);font:500 14px Cinzel,serif}.tournament-test-number{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border:1px solid #8d7044;border-radius:50%;font:600 11px Inter,sans-serif;color:var(--gold)}.tournament-test>summary span:nth-child(2){flex:1}.tournament-instructions{padding:0 12px 16px 42px;color:var(--text);font-size:13px;line-height:1.65}.tournament-instructions p{margin:8px 0}.tournament-instructions ul{margin:8px 0 12px;padding-left:21px;color:#d8cfbd}.tournament-instructions li{padding:2px 0}.tournament-alias{color:var(--gold2);font-style:italic}.tournament-meta{padding:8px 10px;background:#c7a66a0d;border-left:2px solid #8d7044;border-radius:0 5px 5px 0}.tournament-meta strong{color:var(--gold2);margin-right:5px}.agenda-tournament-link{display:inline-flex;margin-top:8px;color:var(--gold2);font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.agenda-tournament-link:hover{color:#fff}
+@media(max-width:600px){.tournament-round>summary{padding:14px 12px;gap:9px}.tournament-round-heading strong{font-size:14px}.tournament-tests{padding:0 9px 12px 13px}.tournament-test>summary{font-size:13px;gap:8px}.tournament-instructions{padding:0 5px 14px 35px;font-size:12px}}
+
 </style>
 </head>
 <body>
 <header><div class="head"><div><div class="brand">EL TORNEO DE LOS SIETE REINOS</div><div class="sub">CRÓNICAS · HONOR · LEALTAD</div></div>
-<nav class="no-print"><button class="tab active" data-tab="clasificacion">Clasificación</button><button class="tab" data-tab="participantes">Participantes</button><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="agenda">Agenda</button><button class="tab" data-tab="album">Álbum</button><button class="tab" data-tab="guerras">Hazañas</button><button class="tab" data-tab="misiones">Misiones</button><button class="tab" data-tab="admin">Admin</button></nav></div></header>
+<nav class="no-print"><button class="tab active" data-tab="clasificacion">Clasificación</button><button class="tab" data-tab="participantes">Participantes</button><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="agenda">Agenda</button><button class="tab" data-tab="eltorneo">El torneo</button><button class="tab" data-tab="album">Álbum</button><button class="tab" data-tab="guerras">Hazañas</button><button class="tab" data-tab="misiones">Misiones</button><button class="tab" data-tab="admin">Admin</button></nav></div></header>
 <main>
 <section id="clasificacion" class="section active">
 <div class="hero"><div class="eyebrow">Las casas han sido convocadas</div><h1>Que comience el torneo</h1><p>Quince nombres. Cuatro casas. Dos coronas por conquistar.</p></div>
@@ -124,7 +137,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
         <article class="agenda-event"><span class="agenda-event-icon">☕</span><div><strong>Desayuno</strong><p>Empezamos el día con fuerzas para afrontar las pruebas.</p></div><span class="agenda-time">10:00 h</span></article>
         <article class="agenda-event"><span class="agenda-event-icon">🔥</span><div><strong>Encender el fuego</strong><p>Preparamos el fuego para la comida.</p></div><span class="agenda-time">12:00 h</span></article>
         <article class="agenda-event"><span class="agenda-event-icon">🥘</span><div><strong>Comida · Paella valenciana y fideuá de marisco</strong><p>Comida compartida para reunir a todas las casas.</p></div><span class="agenda-time">14:00 h</span></article>
-        <article class="agenda-event"><span class="agenda-event-icon">🏆</span><div><strong>Torneo de los Siete Reinos</strong><p>Pruebas, desafíos y competición por la gloria de cada casa.</p><div class="agenda-countdown" data-countdown="2026-11-28T17:00:00+01:00"><span class="agenda-countdown-label">Comienza en</span><span class="agenda-countdown-value">—</span></div></div><span class="agenda-time">17:00 h</span></article>
+        <article class="agenda-event"><span class="agenda-event-icon">🏆</span><div><strong>Torneo de los Siete Reinos</strong><p>Pruebas, desafíos y competición por la gloria de cada casa.</p><a href="#eltorneo" class="agenda-tournament-link" data-open-tab="eltorneo">Ver rondas, pruebas e instrucciones →</a><div class="agenda-countdown" data-countdown="2026-11-28T17:00:00+01:00"><span class="agenda-countdown-label">Comienza en</span><span class="agenda-countdown-value">—</span></div></div><span class="agenda-time">17:00 h</span></article>
         <article class="agenda-event"><span class="agenda-event-icon">👑</span><div><strong>Disfraces medievales</strong><p>Que cada invitado vista sus mejores galas para la ocasión.</p></div><span class="agenda-time">20:00 h</span></article>
         <article class="agenda-event"><span class="agenda-event-icon">🌭</span><div><strong>Cena sueca</strong><p>Frankfurts y albóndigas para recuperar fuerzas.</p></div><span class="agenda-time">22:00 h</span></article>
         <article class="agenda-event"><span class="agenda-event-icon">🎤</span><div><strong>Karaoke</strong><p>La noche termina con actuaciones memorables y mucho espectáculo.</p></div><span class="agenda-time">23:30 h</span></article>
@@ -143,6 +156,229 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
   </div>
   <p class="agenda-footnote">Los horarios son orientativos y pueden ajustarse durante el fin de semana. El Cluedo del domingo queda sujeto a disponibilidad y ganas de jugar.</p>
 </section>
+<section id="eltorneo" class="section">
+  <div class="agenda-heading">
+    <div class="eyebrow">La competición por la gloria</div>
+    <h2>El Torneo de los Siete Reinos</h2>
+    <p class="muted">Cuatro rondas. Veinte pruebas. Una casa conquistará la victoria.</p>
+  </div>
+  <p class="tournament-intro">Abre cada ronda para descubrir sus desafíos. Después, pulsa sobre una prueba para consultar cómo se juega, qué modalidad tiene y qué materiales se necesitan.</p>
+  <div class="tournament-rounds">
+    <details class="tournament-round"><summary><span class="tournament-round-icon">⚔️</span><span class="tournament-round-heading"><strong>RONDA I · Las carreras de los reinos</strong><small>3 pruebas</small></span><span class="tournament-chevron">⌄</span></summary><div class="tournament-tests"><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 1</span><span>Carrera de globos entre las rodillas</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p class="tournament-alias"><strong>Nombre medieval propuesto:</strong> La carrera de los huevos de dragón</p>
+<p>Cada participante debe sujetar un globo entre las rodillas y recorrer un circuito hasta llegar al punto de relevo.</p>
+<ul>
+<li>No se pueden utilizar las manos para sujetar el globo.</li>
+<li>Si se cae, debe recuperarlo y continuar desde donde ha caído.</li>
+<li>Al llegar a la meta, entrega el globo al siguiente compañero.</li>
+<li>Gana la casa que complete el recorrido de todos sus participantes en menos tiempo.</li>
+</ul>
+<p class="tournament-meta"><strong>Modalidad:</strong>relevos por casas.</p>
+<p class="tournament-meta"><strong>Material:</strong>globos y recorrido delimitado.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 2</span><span>El pacto de los dragones</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Dos participantes deben transportar un globo sujetándolo entre sus espaldas, sin utilizar las manos.</p>
+<ul>
+<li>Cada pareja recorre un circuito sin dejar caer el globo.</li>
+<li>Si cae, deben colocarlo de nuevo y continuar desde el punto donde se les ha caído.</li>
+<li>Al llegar al punto de relevo, entregan el globo a la siguiente pareja, que debe sujetarlo también entre sus espaldas.</li>
+<li>Gana la casa que complete todos los relevos en menos tiempo.</li>
+</ul>
+<p class="tournament-meta"><strong>Modalidad:</strong>parejas y relevos por casas.</p>
+<p class="tournament-meta"><strong>Material:</strong>globos y recorrido delimitado.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 3</span><span>El mensajero de la corte</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada participante debe transportar una pelota de ping-pong sobre la base de un vaso invertido, recorriendo un circuito sin que se caiga. Al completar el recorrido, pasa el relevo al siguiente compañero.</p>
+<ul>
+<li>Cada casa se coloca en fila y el primer participante recibe un vaso de plástico y una pelota de ping-pong.</li>
+<li>Coloca el vaso boca abajo y la pelota sobre su base.</li>
+<li>Cuando se dé la salida, debe recorrer el circuito sujetando el vaso con una sola mano y manteniendo la pelota en equilibrio.</li>
+<li>No puede tocar la pelota con la otra mano ni sujetarla con los dedos.</li>
+<li>Si la pelota cae, debe volver al punto donde se ha caído, colocarla de nuevo y continuar.</li>
+<li>Al completar el recorrido, entrega el vaso y la pelota al siguiente compañero.</li>
+<li>Gana la casa que consiga que todos sus participantes completen el recorrido en menos tiempo.</li>
+</ul>
+<p class="tournament-meta"><strong>Modalidad:</strong>relevos por casas.</p>
+<p class="tournament-meta"><strong>Material:</strong>vasos de plástico, pelotas de ping-pong y recorrido delimitado.</p></div></details></div></details>
+<details class="tournament-round"><summary><span class="tournament-round-icon">⚔️</span><span class="tournament-round-heading"><strong>RONDA II · La destreza de los campeones</strong><small>8 pruebas</small></span><span class="tournament-chevron">⌄</span></summary><div class="tournament-tests"><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 4</span><span>La torre del tesoro real</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe construir una torre apilando tuercas metálicas, utilizando únicamente una varilla para manipularlas.</p>
+<ul>
+<li>Cada participante recibe el mismo número de tuercas y una varilla.</li>
+<li>Debe coger las tuercas con la varilla y colocarlas una encima de otra hasta formar una torre.</li>
+<li>No se pueden tocar las tuercas directamente con los dedos.</li>
+<li>Si la torre se cae, debe empezar de nuevo.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga construir la torre más alta y mantenerla estable al terminar el tiempo. Si alguien consigue apilar todas las tuercas antes, gana directamente.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>tuercas metálicas iguales y una varilla por participante</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 5</span><span>Los estandartes de Poniente</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe separar un montón de caramelos de distintos colores y colocarlos en los recipientes correspondientes.</p>
+<p>Cada casa elige a una persona representante.</p>
+<p>Los cuatro participantes se colocan delante de su montón de caramelos y sus recipientes vacíos.</p>
+<p>Cuando se dé la salida, deben clasificar los caramelos por colores.</p>
+<p>Solo pueden utilizar una mano.</p>
+<p>Tienen un máximo de 60 segundos.</p>
+<p>Al terminar el tiempo, se cuentan los caramelos correctamente clasificados.</p>
+<p class="tournament-meta"><strong>Gana:</strong>quien haya conseguido clasificar más caramelos correctamente. Si dos participantes empatan, gana quien haya terminado antes.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante por casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>caramelos de varios coloresM&amp;M&#x27;s, 4 recipientes por participante y cronómetro.</p>
+<p class="tournament-meta"><strong>Importante:</strong>prepara cuatro montones idénticos, con la misma cantidad de caramelos y los mismos colores, para que todos compitan en igualdad de condiciones.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 6</span><span>La prueba del cáliz real</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada casa se coloca en fila frente a una mesa. Los participantes deben conseguir voltear un vaso desde el borde de la mesa hasta dejarlo boca abajo.</p>
+<ul>
+<li>El primer participante coloca el vaso en el borde de la mesa, dejando una parte sobresaliendo.</li>
+<li>Con un golpe de dedos debe conseguir que dé la vuelta y aterrice boca abajo.</li>
+<li>Si falla, vuelve a intentarlo.</li>
+<li>Cuando lo consigue, pasa el turno al siguiente compañero.</li>
+<li>Gana la casa que consiga que todos sus miembros completen el desafío antes.</li>
+</ul>
+<p class="tournament-meta"><strong>Modalidad:</strong>relevos por casas.</p>
+<p class="tournament-meta"><strong>Material:</strong>vasos de plástico resistentes y mesas.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 7</span><span>La puntería del arquero real</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe conseguir introducir pelotas de ping-pong en varios vasos, haciéndolas rebotar primero sobre la mesa.</p>
+<ul>
+<li>Cada participante dispone de varios vasos colocados en el extremo opuesto de la mesa.</li>
+<li>Se sitúa detrás de una línea de lanzamiento.</li>
+<li>Cuando se dé la salida, debe lanzar las pelotas de ping-pong haciéndolas botar sobre la mesa para que entren en los vasos.</li>
+<li>No se pueden lanzar directamente al interior de los vasos sin que la pelota rebote antes.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga introducir más pelotas en los vasos durante el tiempo establecido.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>vasos de plástico, pelotas de ping-pong y una mesa por participante.</p>
+<p class="tournament-meta"><strong>Importante:</strong>prepara la misma cantidad de vasos y pelotas para las cuatro casas y coloca los vasos a la misma distancia de la línea de lanzamiento.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 8</span><span>Es asedio de los siete reinos</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe derribar una torre de vasos utilizando pelotas de ping-pong, haciéndolas rebotar sobre la mesa antes de alcanzar su objetivo.</p>
+<ul>
+<li>Cada participante dispone de una torre de vasos colocada al otro lado de la mesa.</li>
+<li>Se sitúa detrás de una línea de lanzamiento.</li>
+<li>Cuando se dé la salida, debe lanzar las pelotas para que reboten sobre la mesa y golpeen la torre.</li>
+<li>No se pueden lanzar directamente contra los vasos.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga derribar todos los vasos en menos tiempo. Si nadie lo consigue, gana quien haya derribado más.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>vasos de plástico, pelotas de ping-pong y una mesa por participante.</p>
+<p class="tournament-meta"><strong>Importante:</strong>todas las torres deben tener el mismo número de vasos y estar colocadas a la misma distancia de la línea de lanzamiento.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 9</span><span>El banquete de los Siete Reinos</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe trasladar caramelos de un recipiente a otro utilizando únicamente unos palillos chinos, demostrando su destreza y pulso.</p>
+<ul>
+<li>Cada participante dispone de dos recipientes: uno lleno de caramelos y otro vacío.</li>
+<li>Los cuatro participantes comienzan al mismo tiempo.</li>
+<li>Cuando se dé la salida, deben trasladar los caramelos de un recipiente al otro utilizando únicamente los palillos chinos.</li>
+<li>No se pueden utilizar las manos para coger o mover los caramelos.</li>
+<li>Si un caramelo cae, debe recogerse utilizando los palillos.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga trasladar más caramelos correctamente al recipiente vacío.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>palillos chinos, caramelos pequeños y recipientes.</p>
+<p class="tournament-meta"><strong>Importante:</strong>prepara la misma cantidad de caramelos para cada participante y utiliza recipientes iguales.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 10</span><span>La defensa de Invernalia</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe derribar una fila de vasos utilizando gomas elásticas, lanzándolas una a una desde una distancia determinada.</p>
+<ul>
+<li>Cada participante dispone de una fila de vasos colocados sobre una mesa.</li>
+<li>Se coloca detrás de una línea de lanzamiento.</li>
+<li>Cuando se dé la salida, debe disparar las gomas elásticas para derribar los vasos.</li>
+<li>Solo puede lanzar una goma cada vez.</li>
+<li>No puede acercarse a la mesa ni sobrepasar la línea de lanzamiento.</li>
+<li>Tiene un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga derribar todos los vasos en menos tiempo. Si nadie lo consigue, gana quien haya derribado más.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>vasos de plástico, gomas elásticas y mesas.</p>
+<p class="tournament-meta"><strong>Importante:</strong>utiliza gomas elásticas blandas y vasos ligeros. Todas las casas deben tener el mismo número de vasos y la misma distancia de lanzamiento.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 11</span><span>El aliento del dragón</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe inflar un globo y utilizar el aire que expulsa al soltarlo para desplazar pelotas de ping-pong de un extremo de la mesa al otro.</p>
+<ul>
+<li>Cada participante dispone de un globo y varias pelotas de ping-pong colocadas en la línea de salida.</li>
+<li>Cuando se dé la salida, debe inflar el globo.</li>
+<li>Una vez inflado, debe soltar la boquilla del globo y dirigir el chorro de aire hacia las pelotas para desplazarlas.</li>
+<li>Puede repetir la operación tantas veces como necesite, volviendo a inflar el globo.</li>
+<li>No se pueden tocar las pelotas con las manos ni soplar directamente sobre ellas.</li>
+<li>Si una pelota cae de la mesa, debe volver a colocarse en la línea de salida.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga llevar más pelotas hasta la meta. Si alguien consigue trasladarlas todas antes, gana directamente.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>globos, pelotas de ping-pong</p></div></details></div></details>
+<details class="tournament-round"><summary><span class="tournament-round-icon">⚔️</span><span class="tournament-round-heading"><strong>RONDA III · Los desafíos de la corte</strong><small>5 pruebas</small></span><span class="tournament-chevron">⌄</span></summary><div class="tournament-tests"><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 12</span><span>El ascenso al Trono de Hierro</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón comienza con una torre de vasos, todos del mismo color excepto uno, que estará colocado en la parte inferior.</p>
+<p>El objetivo es conseguir que el vaso de distinto color llegue hasta arriba.</p>
+<ul>
+<li>Se parte de una torre de 15 vasos.</li>
+<li>El vaso de diferente color empieza abajo del todo.</li>
+<li>Hay que coger el vaso superior y pasarlo a la base de la torre, uno por uno.</li>
+<li>Se continúa hasta que el vaso diferente llegue a la parte superior.</li>
+<li>Límite de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga colocar primero el vaso diferente arriba. Si nadie lo logra, gana quien lo haya acercado más.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante por casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>15 vasos por participante, uno de color diferente.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 13</span><span>La construcción de Desembarco del Rey</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe construir una pirámide de vasos y desmontarla hasta volver a dejar todos los vasos apilados en una única torre.</p>
+<ul>
+<li>Se parte de 36 vasos colocados en una sola torre.</li>
+<li>Hay que construir una pirámide de 8 niveles (8-7-6-5-4-3-2-1).</li>
+<li>Una vez construida, hay que desmontarla y volver a formar una única torre.</li>
+<li>Si la estructura se cae, debe reconstruirse antes de continuar.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien complete correctamente todo el proceso en menos tiempo.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante por casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>36 vasos de plástico resistentes por participante.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 14</span><span>Los pilares de Rocadragón</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe construir una torre alternando vasos y platos, hasta conseguir una estructura alta y estable.</p>
+<ul>
+<li>Cada participante recibe 5 vasos de plástico y 4 platos pequeños de cartón.</li>
+<li>Debe colocar un vaso, encima un plato, después otro vaso y así sucesivamente, alternando los materiales.</li>
+<li>La estructura debe mantenerse en equilibrio sin sujetarla con las manos.</li>
+<li>No se pueden colocar varios vasos o platos seguidos.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga construir la torre más alta y mantenerla en pie al terminar el tiempo.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>5 vasos de plástico y 4 platos pequeños de cartón por participante.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 15</span><span>La alianza de las casas</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Los miembros de cada casa deben trabajar en equipo para construir una pirámide de vasos utilizando una goma elástica con cuerdas, sin tocar los vasos directamente con las manos.</p>
+<ul>
+<li>Cada casa recibe una goma elástica con varias cuerdas atadas a su alrededor, una para cada participante.</li>
+<li>Todos deben sujetar el extremo de una cuerda.</li>
+<li>Tirando de las cuerdas de forma coordinada, deben abrir la goma para rodear un vaso y después aflojarla para sujetarlo.</li>
+<li>Utilizando este sistema, deben transportar los vasos y construir una pirámide de 6 vasos (3-2-1).</li>
+<li>No se pueden tocar los vasos con las manos.</li>
+<li>Si la estructura se cae, deben volver a construirla.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>la primera casa que consiga construir correctamente la pirámide. Si ninguna lo consigue, gana la que haya alcanzado una mayor altura.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>trabajo en equipo por casas.</p>
+<p class="tournament-meta"><strong>Material:</strong>vasos de plástico resistentes, gomas elásticas y cuerdas.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 16</span><span>El saqueo del arcón del maestre</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada participante dispone de 60 segundos para vaciar una caja de pañuelos, sacándolos uno a uno lo más rápido posible.</p>
+<ul>
+<li>Solo se puede utilizar una mano.</li>
+<li>Los pañuelos deben salir individualmente.</li>
+<li>No se puede volcar ni desmontar la caja.</li>
+<li>Al terminar el tiempo, se cuentan los pañuelos extraídos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien haya conseguido sacar más pañuelos.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>cuatro cajas de pañuelos.</p>
+<p class="tournament-meta"><strong>¡Importante!</strong> Guardaremos las cajas vacías.</p></div></details></div></details>
+<details class="tournament-round"><summary><span class="tournament-round-icon">⚔️</span><span class="tournament-round-heading"><strong>RONDA IV · El desafío final</strong><small>4 pruebas</small></span><span class="tournament-chevron">⌄</span></summary><div class="tournament-tests"><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 17</span><span>El festín del bufón</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe conseguir llevar una galleta desde su frente hasta su boca utilizando únicamente los músculos de la cara.</p>
+<ul>
+<li>Se coloca una galleta en la frente.</li>
+<li>No se pueden utilizar las manos para moverla.</li>
+<li>Solo se permite mover la cara y la cabeza.</li>
+<li>Si la galleta cae, hay que volver a colocarla en la frente.</li>
+<li>Cada participante dispone de un máximo de 60 segundos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>quien consiga comerse la galleta en menos tiempo. Si nadie lo consigue, gana quien haya logrado acercarla más a la boca.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>galletas, preferiblemente pequeñas y resistentes.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 18</span><span>La danza de los dragones</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón se coloca una caja de pañuelos vacía, atada a la cintura por detrás y llena de pelotas de ping-pong.</p>
+<p>El objetivo es vaciarla sacudiendo el cuerpo, sin utilizar las manos.</p>
+<ul>
+<li>Cada caja empieza con el mismo número de pelotas.</li>
+<li>No se pueden tocar las pelotas ni la caja con las manos.</li>
+<li>Se puede bailar, saltar, agacharse y mover la cintura.</li>
+<li>Gana quien consiga vaciar antes la caja.</li>
+</ul>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>las cajas de pañuelos de la prueba 4, cintas para sujetarlas y pelotas de ping-pong.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 19</span><span>El baile de los salvajes</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe bailar mientras suena la música y quedarse completamente inmóvil cuando esta se detenga.</p>
+<ul>
+<li>Los cuatro participantes se colocan en una zona despejada.</li>
+<li>Cuando empiece la música, deben bailar libremente.</li>
+<li>Cuando la música se detenga, todos deben quedarse congelados en la posición en la que estén.</li>
+<li>Quien se mueva, pierda el equilibrio o siga bailando queda eliminado.</li>
+<li>La música vuelve a sonar y el juego continúa hasta que solo quede un participante.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>el último campeón que consiga mantenerse en el juego sin moverse.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual, un representante de cada casa.</p>
+<p class="tournament-meta"><strong>Material:</strong>altavoz y música.</p></div></details><details class="tournament-test"><summary><span class="tournament-test-number">Prueba 20</span><span>El último aliento del dragón</span><span class="tournament-chevron">⌄</span></summary><div class="tournament-instructions"><p>Cada campeón debe localizar y explotar los globos de su propia casa con los ojos vendados, mientras sus compañeros lo guían entre un montón de globos de distintos colores.</p>
+<ul>
+<li>Cada casa elige a una persona representante. Los cuatro campeones participan al mismo tiempo.</li>
+<li>Se prepara una zona de juego con muchos globos de los cuatro colores de las casas, mezclados y repartidos por el espacio.</li>
+<li>Cada campeón se venda los ojos y se coloca en la línea de salida.</li>
+<li>Cuando se dé la salida, sus compañeros deben guiarlo únicamente con indicaciones verbales para que encuentre los globos de su color.</li>
+<li>Cada participante debe localizar y explotar únicamente los globos que correspondan a su casa, sentándose sobre ellos.</li>
+<li>Si encuentra un globo de otra casa, no puede explotarlo y debe continuar buscando.</li>
+<li>Los compañeros pueden dar todas las indicaciones que quieran, aunque las voces de las cuatro casas se mezclarán al mismo tiempo.</li>
+<li>La prueba termina cuando una casa consigue explotar todos sus globos.</li>
+</ul>
+<p class="tournament-meta"><strong>Gana:</strong>la primera casa que consiga localizar y explotar todos los globos de su color.</p>
+<p class="tournament-meta"><strong>Modalidad:</strong>individual simultánea, un representante por casa, con ayuda verbal de todo el equipo.</p>
+<p class="tournament-meta"><strong>Material:</strong>muchos globos de los cuatro colores de las casas y vendas para los ojos.</p></div></details></div></details>
+  </div>
+</section>
+
 <section id="album" class="section">
   <h2>El álbum de Poniente</h2>
   <p class="muted">Comparte los recuerdos del fin de semana. Solo pueden entrar participantes identificados y administradoras.</p>
@@ -278,6 +514,7 @@ function showSection(id){document.querySelectorAll("main>.section").forEach(x=>x
 $("unlockSecretMission").addEventListener("click",async()=>{const token=currentProfileToken(),word=$("secretMissionWord").value.trim();if(!token){notice("secretMissionMessage","Primero identifícate desde Mi perfil con tu QR o palabra de acceso.",false);return}if(!word){notice("secretMissionMessage","Escribe la palabra secreta.",false);return}const {data,error}=await sb.rpc("accept_secret_mission",{p_profile_token:token,p_secret_word:word});if(error||!data?.ok){notice("secretMissionMessage",error?.message||data?.message||"No se pudo desbloquear la misión.",false);return}notice("secretMissionMessage",data.message+" «"+data.title+"»",true);$("secretMissionWord").value="";await loadMyMissions();showMissionView("mine")});
 $("refreshMissionBoard").addEventListener("click",()=>loadMissionBoard()); function showMissionView(view){document.querySelectorAll("[data-mission-view]").forEach(x=>x.classList.toggle("active",x.dataset.missionView===view));$("missionBoard").classList.toggle("hidden",view!=="board");$("myMissions").classList.toggle("hidden",view!=="mine");$("secretMissionView").classList.toggle("hidden",view!=="secret");if(view==="mine"){loadMyMissions().then(()=>loadMyPublicTasks())}}
 document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{showSection(b.dataset.tab);if(b.dataset.tab==="perfil"){const token=currentProfileToken();if(token)showProfile(token);else showProfileEntry()}}));
+document.querySelectorAll("[data-open-tab]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showSection(a.dataset.openTab);window.scrollTo({top:0,behavior:"smooth"})}));
 document.querySelectorAll("[data-mission-view]").forEach(b=>b.addEventListener("click",()=>showMissionView(b.dataset.missionView)));
 document.querySelectorAll("[data-sub]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-sub]").forEach(x=>x.classList.toggle("active",x===b));$("individualBoard").classList.toggle("hidden",b.dataset.sub!=="individual");$("houseBoard").classList.toggle("hidden",b.dataset.sub!=="casas")}));
 document.querySelectorAll("[data-admin]").forEach(b=>b.addEventListener("click",()=>{if(["missions","managers","documents"].includes(b.dataset.admin)&&!isOwner)return;document.querySelectorAll("[data-admin]").forEach(x=>x.classList.toggle("active",x===b));["points","teams","portraits","qrs","managers","missions","publicTasks","reviews","documents","album"].forEach(k=>{const panel=$("admin"+k[0].toUpperCase()+k.slice(1));if(panel)panel.classList.toggle("hidden",k!==b.dataset.admin)});if(b.dataset.admin==="missions")loadAdminMissions();if(b.dataset.admin==="publicTasks")loadAdminPublicTasks();if(b.dataset.admin==="reviews")loadPendingMissions();if(b.dataset.admin==="album")loadAdminAlbum();if(b.dataset.admin==="teams")renderTeamTable();if(b.dataset.admin==="portraits")loadPortraitAdmin();if(b.dataset.admin==="qrs")loadQrCards();if(b.dataset.admin==="managers")loadManagers()}));
