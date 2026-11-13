@@ -43,11 +43,28 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 @media print{body{background:white;color:#111}.qrbox{break-inside:avoid}.no-print,header,.hero{display:none!important}.qrgrid{grid-template-columns:repeat(3,1fr)}}
 
 .participant-portrait{width:76px;height:76px;object-fit:cover;border-radius:50%;border:2px solid var(--gold);background:#211b14;flex:0 0 auto}.profile-portrait{width:min(220px,58vw);height:min(220px,58vw);object-fit:cover;border-radius:50%;border:3px solid var(--gold);box-shadow:0 8px 28px #0008;background:#211b14;margin:0 auto 14px;display:block}.portrait-placeholder{display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--gold2)}.portrait-admin-row{display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.portrait-admin-row img{width:72px;height:72px;object-fit:cover;border-radius:50%;border:1px solid var(--gold)}.portrait-admin-row input{max-width:100%}.portrait-modal{position:fixed;inset:0;z-index:60;background:#000d;display:flex;align-items:center;justify-content:center;padding:20px}.portrait-modal.hidden{display:none!important}.portrait-modal-card{position:relative;background:#171411;border:1px solid var(--gold);border-radius:12px;padding:18px;width:min(520px,100%);text-align:center}.portrait-modal-card img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:8px}.portrait-modal-close{position:absolute;right:8px;top:8px;background:#211d18}.profile-history{margin-top:24px}.profile-history-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line)}.profile-history-row .points{white-space:nowrap}@media(max-width:500px){.participant-portrait{width:62px;height:62px}.portrait-admin-row{grid-template-columns:58px minmax(0,1fr);gap:9px}.portrait-admin-row img{width:58px;height:58px}}
+
+/* Ajustes de clasificación y Premios de Poniente */
+#individualBoard .rankrow{grid-template-columns:36px 48px minmax(0,1fr) auto!important;gap:9px}
+#individualBoard .rankrow .participant-portrait{width:48px;height:48px;max-width:48px;max-height:48px}
+#individualBoard .rankrow>div:nth-child(3){min-width:0;overflow-wrap:anywhere}
+#individualBoard .rankrow>div:nth-child(3) strong{display:block;overflow-wrap:anywhere}
+.awards-countdown{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;max-width:520px;margin:18px auto 10px}
+.awards-time{background:#100f0e;border:1px solid var(--line);border-radius:8px;padding:12px 4px}
+.awards-time strong{display:block;font:600 clamp(22px,5vw,34px) Cinzel,serif;color:var(--gold2);font-variant-numeric:tabular-nums}
+.awards-time span{font-size:10px;letter-spacing:.12em;color:var(--muted)}
+.award-card{background:linear-gradient(145deg,#211e1a,#171513);border:1px solid var(--line);border-radius:10px;padding:16px}
+.award-card h3{margin:5px 0 8px}.award-winner{padding:8px 0;border-bottom:1px solid #51433166}.award-winner:last-child{border:0}
+.award-rank{color:var(--gold);font:600 13px Cinzel,serif;margin-right:8px}
+.award-ballot{margin:12px 0;padding:15px;border:1px solid var(--line);border-radius:9px;background:#171411}
+.award-ballot select{margin-bottom:8px}
+@media(max-width:500px){#individualBoard .rankrow{grid-template-columns:27px 42px minmax(0,1fr) auto!important;gap:6px}#individualBoard .rankrow .participant-portrait{width:42px;height:42px;max-width:42px;max-height:42px}.awards-time{padding:9px 2px}}
+
 </style>
 </head>
 <body>
 <header><div class="head"><div><div class="brand">EL TORNEO DE LOS SIETE REINOS</div><div class="sub">CRÓNICAS · HONOR · LEALTAD</div></div>
-<nav class="no-print"><button class="tab active" data-tab="clasificacion">Clasificación</button><button class="tab" data-tab="participantes">Participantes</button><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="album">Álbum</button><button class="tab" data-tab="guerras">Hazañas</button><button class="tab" data-tab="misiones">Misiones</button><button class="tab" data-tab="admin">Admin</button></nav></div></header>
+<nav class="no-print"><button class="tab active" data-tab="clasificacion">Clasificación</button><button class="tab" data-tab="participantes">Participantes</button><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="album">Álbum</button><button class="tab" data-tab="guerras">Hazañas</button><button class="tab" data-tab="misiones">Misiones</button><button class="tab" data-tab="admin">Admin</button></nav></div></header>
 <main>
 <section id="clasificacion" class="section active">
 <div class="hero"><div class="eyebrow">Las casas han sido convocadas</div><h1>Que comience el torneo</h1><p>Quince nombres. Cuatro casas. Dos coronas por conquistar.</p></div>
@@ -55,6 +72,30 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 </section>
 <section id="participantes" class="section"><h2>Los participantes</h2><p class="muted">Consulta los perfiles de quienes compiten por los Siete Reinos.</p><div id="participantGrid" class="grid"></div></section>
 <section id="perfil" class="section"><div id="profileView" class="card"><h2>Mi perfil</h2><p class="muted">Entra escaneando tu QR personal o escribiendo tu palabra secreta.</p><div class="formgrid"><div><label>Palabra secreta</label><input id="profileAccessWord" maxlength="40" autocomplete="off" placeholder="Ej. SANGREDEDRAK"></div><div style="align-self:end"><button class="primary" id="enterByWord">Entrar en mi perfil</button></div></div><div id="profileAccessMsg"></div></div></section>
+<section id="premios" class="section">
+  <h2>Los Premios de Poniente</h2>
+  <p class="muted">Las hazañas serán reveladas en la gran gala. Tus votos son secretos y solo tú puedes consultar tu papeleta antes del cierre.</p>
+  <div class="card" style="text-align:center;margin:14px 0">
+    <div class="eyebrow">La gran gala de Poniente</div>
+    <h2 style="margin:8px 0">29 de noviembre · 14:00 h</h2>
+    <div class="tag">Revelación de los vencedores</div>
+    <div id="awardsCountdown" class="awards-countdown" aria-live="polite"></div>
+    <div id="awardsCountdownLabel" class="muted">Tiempo restante para conocer a los vencedores</div>
+  </div>
+  <div class="tabs awards-tabs">
+    <button class="tab active" data-awards-view="premios">Premios</button>
+    <button class="tab" data-awards-view="votar">Votaciones</button>
+  </div>
+  <div id="awardsResultsView">
+    <div id="awardsCards" class="grid"></div>
+    <div id="awardsRevealMessage" class="notice">Los resultados permanecerán ocultos hasta el 29 de noviembre a las 14:00 h.</div>
+  </div>
+  <div id="awardsVoteView" class="hidden">
+    <div class="notice">En cada categoría puedes elegir hasta tres personas. Top 1 suma 3 puntos, Top 2 suma 2 y Top 3 suma 1. Puedes modificar tus votos hasta el cierre. No puedes votarte a ti mismo.</div>
+    <div id="awardsBallots"></div>
+    <div id="awardsVoteMessage"></div>
+  </div>
+</section>
 <section id="album" class="section">
   <h2>El álbum de Poniente</h2>
   <p class="muted">Comparte los recuerdos del fin de semana. Solo pueden entrar participantes identificados y administradoras.</p>
@@ -176,7 +217,7 @@ function bindPortraitOpeners(root){root.querySelectorAll("[data-portrait]").forE
 $("closePortraitModal").addEventListener("click",()=>$("portraitModal").classList.add("hidden"));$("portraitModal").addEventListener("click",e=>{if(e.target===$("portraitModal"))$("portraitModal").classList.add("hidden")});
 function fillSelectors(){const opts=participants.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");$("scorePlayer").innerHTML=opts;$("editParticipant").innerHTML=opts;const h=Object.entries(HOUSES).map(([id,v])=>`<option value="${id}">${v.sigil} ${v.name}</option>`).join("");$("scoreHouse").innerHTML=h;$("editHouse").innerHTML=h;syncEditHouse()}
 function syncEditHouse(){const p=participants.find(x=>x.id===$("editParticipant").value);if(p)$("editHouse").value=p.house_id}
-function showSection(id){document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));if(id==="misiones")showMissionView("board");if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
+function showSection(id){document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
 $("unlockSecretMission").addEventListener("click",async()=>{const token=currentProfileToken(),word=$("secretMissionWord").value.trim();if(!token){notice("secretMissionMessage","Primero identifícate desde Mi perfil con tu QR o palabra de acceso.",false);return}if(!word){notice("secretMissionMessage","Escribe la palabra secreta.",false);return}const {data,error}=await sb.rpc("accept_secret_mission",{p_profile_token:token,p_secret_word:word});if(error||!data?.ok){notice("secretMissionMessage",error?.message||data?.message||"No se pudo desbloquear la misión.",false);return}notice("secretMissionMessage",data.message+" «"+data.title+"»",true);$("secretMissionWord").value="";await loadMyMissions();showMissionView("mine")});
 $("refreshMissionBoard").addEventListener("click",()=>loadMissionBoard()); function showMissionView(view){document.querySelectorAll("[data-mission-view]").forEach(x=>x.classList.toggle("active",x.dataset.missionView===view));$("missionBoard").classList.toggle("hidden",view!=="board");$("myMissions").classList.toggle("hidden",view!=="mine");$("secretMissionView").classList.toggle("hidden",view!=="secret");if(view==="mine")loadMyMissions()}
 document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{showSection(b.dataset.tab);if(b.dataset.tab==="perfil"){const token=currentProfileToken();if(token)showProfile(token);else showProfileEntry()}}));
@@ -318,7 +359,7 @@ async function showProfile(token){
  }
  saveParticipantToken(token);
  const p=data;
- const participantId=p.participant_id||p.id||participants.find(x=>x.name===p.name)?.id;
+ const participantId=p.participant_id||p.id||participants.find(x=>x.name===p.name)?.id||participants.find(x=>String(x.name||"").trim().toLocaleLowerCase("es")===String(p.name||"").trim().toLocaleLowerCase("es"))?.id;
  const participant=participants.find(x=>x.id===participantId);
  const ownScores=scores.filter(x=>(x.kind==="individual"&&x.player_id===participantId)||(x.kind==="collective"&&Array.isArray(x.member_ids)&&x.member_ids.includes(participantId))).sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
  const ownTotal=ownScores.reduce((sum,x)=>sum+Number(x.points||0),0);
@@ -367,6 +408,73 @@ async function loadPendingMissions(){const box=$("pendingMissionList");const {da
 async function reviewMission(id,approve){const note=$("review-note-"+id)?.value||null;const {data,error}=await sb.rpc("admin_review_mission",{p_claim_id:id,p_approve:approve,p_note:note});if(error||!data?.ok){alert(error?.message||data?.message||"No se pudo revisar.");return}alert(data.message);await loadPendingMissions();await loadData()}
 async function handleMissionQr(token){const profile=currentProfileToken();if(!profile){showSection("perfil");$("profileView").innerHTML='<h2>Identifícate</h2><p class="muted">Primero abre tu QR personal en este dispositivo. Después vuelve a escanear el QR de la misión.</p>';return}const {data,error}=await sb.rpc("get_qr_mission_preview",{p_profile_token:profile,p_mission_qr_token:token});if(error||!data?.ok){notice("missionMessage",error?.message||data?.message||"No se pudo abrir la misión.",false);showSection("misiones");return}showSection("misiones");if(data.already_completed||data.already_accepted){notice("missionMessage",data.message);return}const yes=confirm(`${data.intro||"Has descubierto una misión secreta."}\n\nRecompensa: ${data.points} puntos.\n\n¿Quieres aceptarla?`);if(!yes)return;const {data:accepted,error:acceptError}=await sb.rpc("accept_qr_mission",{p_profile_token:profile,p_mission_qr_token:token});if(acceptError||!accepted?.ok){notice("missionMessage",acceptError?.message||accepted?.message||"No se pudo aceptar.",false);return}notice("missionMessage",`¡Misión aceptada: ${accepted.title}! Entra en Misiones → Mis misiones para completar la prueba.`);showMissionView("mine");await loadMyMissions()}
 
+
+
+
+// PREMIOS DE PONIENTE · votaciones secretas y revelación programada
+const AWARDS_DEADLINE = new Date("2026-11-29T13:00:00Z"); // 14:00 hora peninsular (CET)
+const AWARD_CATEGORIES = [
+ {id:"best_costume",title:"Mejor disfraz",emoji:"🏆",mode:"vote"},
+ {id:"most_missions",title:"Más misiones realizadas",emoji:"🕵️",mode:"automatic"},
+ {id:"winning_house",title:"Casa vencedora del torneo",emoji:"🐉",mode:"automatic"},
+ {id:"funniest",title:"Premio al más divertido",emoji:"😂",mode:"vote"},
+ {id:"best_singer",title:"Mejor cantante",emoji:"🎤",mode:"vote"},
+ {id:"house_helper",title:"El que más coopera en la casa",emoji:"🐺",mode:"vote"}
+];
+let awardsData=null, awardsCountdownTimer=null;
+function awardsClosed(){return Date.now()>=AWARDS_DEADLINE.getTime()}
+function startAwardsCountdown(){
+ const draw=()=>{const el=$("awardsCountdown");if(!el)return;let ms=Math.max(0,AWARDS_DEADLINE.getTime()-Date.now());if(ms<=0){el.innerHTML='<div class="awards-time" style="grid-column:1/-1"><strong>¡Ha llegado la hora!</strong><span>LOS PREMIOS SE REVELAN</span></div>';$("awardsCountdownLabel").textContent="Los vencedores ya pueden descubrirse.";loadAwardsData();if(awardsCountdownTimer)clearInterval(awardsCountdownTimer);return}
+ const d=Math.floor(ms/86400000);ms%=86400000;const h=Math.floor(ms/3600000);ms%=3600000;const m=Math.floor(ms/60000);const sec=Math.floor(ms%60000/1000);
+ el.innerHTML=[[d,"DÍAS"],[h,"HORAS"],[m,"MIN"],[sec,"SEG"]].map(([n,l])=>`<div class="awards-time"><strong>${String(n).padStart(2,"0")}</strong><span>${l}</span></div>`).join("");
+ };
+ draw();if(awardsCountdownTimer)clearInterval(awardsCountdownTimer);awardsCountdownTimer=setInterval(draw,1000);
+}
+function showAwardsView(view){document.querySelectorAll("[data-awards-view]").forEach(b=>b.classList.toggle("active",b.dataset.awardsView===view));$("awardsResultsView").classList.toggle("hidden",view!=="premios");$("awardsVoteView").classList.toggle("hidden",view!=="votar");if(view==="votar")renderAwardBallots()}
+document.querySelectorAll("[data-awards-view]").forEach(b=>b.addEventListener("click",()=>showAwardsView(b.dataset.awardsView)));
+async function loadAwardsData(){
+ const token=currentProfileToken();if(!token){$("awardsCards").innerHTML='<div class="card"><p class="muted">Identifícate desde «Mi perfil» para consultar y votar en los Premios de Poniente.</p><button class="primary small" id="awardsIdentify">Ir a Mi perfil</button></div>';$("awardsIdentify").onclick=()=>{showSection("perfil");showProfileEntry()};return}
+ const {data,error}=await sb.rpc("get_awards_data",{p_profile_token:token});
+ if(error||!data?.ok){$("awardsCards").innerHTML=`<div class="notice bad">No se pudieron cargar los premios: ${esc(error?.message||data?.message||"Error desconocido")}</div>`;return}
+ awardsData=data;renderAwardsCards();renderAwardBallots();
+}
+function renderAwardsCards(){
+ const released=!!awardsData?.revealed;
+ $("awardsRevealMessage").textContent=released?"¡La gala ha comenzado! Estos son los resultados definitivos.":"Los resultados permanecerán ocultos hasta el 29 de noviembre a las 14:00 h.";
+ const results=awardsData?.results||{};
+ $("awardsCards").innerHTML=AWARD_CATEGORIES.map(c=>{
+  let body='<div class="muted">El vencedor se revelará durante la gala.</div>';
+  if(released){
+   const rows=results[c.id]||[];
+   body=rows.length?rows.map((r,i)=>`<div class="award-winner"><span class="award-rank">${c.mode==="vote"?"TOP "+(i+1):"GANADOR"}</span><strong>${esc(r.label||r.name||r.house||"")}</strong>${r.points!==undefined?`<span class="points" style="float:right">${esc(r.points)} pts</span>`:""}${r.votes!==undefined?`<div class="tag">${r.votes} votos ponderados</div>`:""}</div>`).join(""):'<div class="muted">Sin resultado disponible.</div>';
+  }else if(c.id==="winning_house"){body='<div class="muted">Se calculará con los puntos colectivos acumulados por cada casa.</div>'}
+  else if(c.id==="most_missions"){body='<div class="muted">Se calculará automáticamente según las misiones completadas.</div>'}
+  return `<article class="award-card"><div class="tag">${c.emoji} ${c.mode==="vote"?"VOTACIÓN TOP 3":"RESULTADO AUTOMÁTICO"}</div><h3>${c.title}</h3>${body}</article>`;
+ }).join("");
+}
+function renderAwardBallots(){
+ const host=$("awardsBallots");if(!host)return;
+ if(!awardsData){host.innerHTML='<p class="muted">Cargando tus votaciones…</p>';return}
+ if(awardsClosed()||awardsData.revealed){host.innerHTML='<div class="notice">El plazo de votación ha terminado. Las papeletas están cerradas.</div>';return}
+ const token=currentProfileToken();if(!token){host.innerHTML='<div class="notice">Identifícate primero desde Mi perfil.</div>';return}
+ const existing=awardsData.my_votes||{};
+ host.innerHTML=AWARD_CATEGORIES.filter(c=>c.mode==="vote").map(c=>{
+  const v=existing[c.id]||[];
+  const option=(rank,val)=>`<label>Top ${rank}</label><select data-award-category="${c.id}" data-award-rank="${rank}"><option value="">Sin seleccionar</option>${participants.filter(p=>p.id!==awardsData.participant_id).map(p=>`<option value="${esc(p.id)}" ${val===p.id?"selected":""}>${esc(p.name)}</option>`).join("")}</select>`;
+  return `<div class="award-ballot" data-award-ballot="${c.id}"><h3>${c.title}</h3>${option(1,v.find(x=>x.rank===1)?.candidate_id)}${option(2,v.find(x=>x.rank===2)?.candidate_id)}${option(3,v.find(x=>x.rank===3)?.candidate_id)}<button class="primary small" data-save-award="${c.id}">Guardar votación</button><div class="tag" style="margin-top:7px">Tu selección es privada. Puedes modificarla hasta el cierre.</div></div>`;
+ }).join("");
+ host.querySelectorAll("[data-save-award]").forEach(b=>b.onclick=()=>saveAwardVote(b.dataset.saveAward));
+ host.querySelectorAll("[data-award-category]").forEach(sel=>sel.addEventListener("change",()=>{const group=[...host.querySelectorAll(`[data-award-category="${sel.dataset.awardCategory}"]`)];const chosen=group.filter(x=>x.value);if(new Set(chosen.map(x=>x.value)).size!==chosen.length){sel.value="";notice("awardsVoteMessage","No puedes elegir a la misma persona en más de una posición.",false)}}));
+}
+async function saveAwardVote(category){
+ const group=[...$("awardsBallots").querySelectorAll(`[data-award-category="${category}"]`)];
+ const vals=group.map(x=>x.value||null);
+ if(vals.filter(Boolean).length===0){notice("awardsVoteMessage","Selecciona al menos una persona.",false);return}
+ if(new Set(vals.filter(Boolean)).size!==vals.filter(Boolean).length){notice("awardsVoteMessage","Cada posición debe tener una persona distinta.",false);return}
+ const {data,error}=await sb.rpc("submit_award_vote",{p_profile_token:currentProfileToken(),p_category:category,p_top1:vals[0],p_top2:vals[1],p_top3:vals[2]});
+ if(error||!data?.ok){notice("awardsVoteMessage",error?.message||data?.message||"No se pudo guardar la votación.",false);return}
+ notice("awardsVoteMessage","Tu votación se ha guardado de forma privada.");await loadAwardsData();
+}
 
 // ÁLBUM PRIVADO DEL TORNEO
 let albumPhotos = [];
@@ -541,7 +649,7 @@ async function init(){
  const token=params.get("profile")||storedParticipantToken();
  if(token)saveParticipantToken(token);
  await loadData();
- if(token){await showProfile(token);if(params.has("profile")){showSection("perfil");const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete("profile");history.replaceState({},"",cleanUrl.toString())}}
+ if(token){saveParticipantToken(token);if(params.has("profile")){await showProfile(token);showSection("perfil");const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete("profile");history.replaceState({},"",cleanUrl.toString())}}
  await loadMissionBoard();
  const missionToken=params.get("mission");
  if(missionToken){await handleMissionQr(missionToken)}
