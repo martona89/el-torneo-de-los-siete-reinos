@@ -99,7 +99,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 .tournament-tests{padding:0 16px 15px 58px}.tournament-test{border-top:1px solid #51433166}.tournament-test>summary{display:flex;align-items:center;gap:10px;padding:13px 4px;cursor:pointer;list-style:none;color:var(--gold2);font:500 14px Cinzel,serif}.tournament-test-number{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;border:1px solid #8d7044;border-radius:50%;font:600 11px Inter,sans-serif;color:var(--gold)}.tournament-test>summary span:nth-child(2){flex:1}.tournament-instructions{padding:0 12px 16px 42px;color:var(--text);font-size:13px;line-height:1.65}.tournament-instructions p{margin:8px 0}.tournament-instructions ul{margin:8px 0 12px;padding-left:21px;color:#d8cfbd}.tournament-instructions li{padding:2px 0}.tournament-alias{color:var(--gold2);font-style:italic}.tournament-meta{padding:8px 10px;background:#c7a66a0d;border-left:2px solid #8d7044;border-radius:0 5px 5px 0}.tournament-meta strong{color:var(--gold2);margin-right:5px}.agenda-tournament-link{display:inline-flex;margin-top:8px;color:var(--gold2);font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.agenda-tournament-link:hover{color:#fff}
 @media(max-width:600px){.tournament-round>summary{padding:14px 12px;gap:9px}.tournament-round-heading strong{font-size:14px}.tournament-tests{padding:0 9px 12px 13px}.tournament-test>summary{font-size:13px;gap:8px}.tournament-instructions{padding:0 5px 14px 35px;font-size:12px}}
 
-.house-tyrell{color:#75a84a!important}
+
 
 /* Navegación móvil: cuatro accesos en una fila y «Más» a la derecha. */
 @media(max-width:650px){
@@ -114,6 +114,30 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
   .nav-more-menu button{display:block!important;min-width:0;padding:8px 5px!important;font-size:10px!important;line-height:1.15!important;text-align:center;white-space:normal}
   .nav-more-menu button.active{border-color:var(--gold);color:var(--gold2);background:#3a2e1e}
   .nav-more.has-active>summary{border-color:var(--gold);color:var(--gold2)}
+}
+
+/* Ajustes finales de navegación: «Más» visible también en escritorio y menú desplegable. */
+nav{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;min-width:0}
+nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
+.nav-more{display:block!important;position:relative!important;grid-column:auto!important;width:auto!important;min-width:0}
+.nav-more>summary{display:flex!important;align-items:center;justify-content:center;gap:4px;list-style:none;cursor:pointer;border:1px solid var(--line);background:#211d18;color:var(--text);padding:8px 10px;border-radius:7px;font:inherit;font-size:12px;white-space:nowrap}
+.nav-more>summary::-webkit-details-marker{display:none}
+.nav-more[open]>summary,.nav-more.has-active>summary{border-color:var(--gold);color:var(--gold2)}
+.nav-more-menu{display:none!important;position:absolute;right:0;top:calc(100% + 6px);z-index:30;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;width:min(260px,80vw);padding:9px;background:#171411;border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 28px #000b}
+.nav-more[open] .nav-more-menu{display:grid!important}
+.nav-more-menu button{display:block;min-width:0;padding:8px 7px;font-size:12px;line-height:1.2;text-align:center;white-space:normal}
+.nav-more-menu button.active{border-color:var(--gold);color:var(--gold2);background:#3a2e1e}
+@media(max-width:900px){.head{align-items:flex-start;flex-direction:column;gap:9px;padding:12px 15px}nav{width:100%;justify-content:flex-start}}
+@media(max-width:650px){
+  header,.head{overflow:visible}
+  .head{padding:9px 12px;gap:8px}
+  nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr)) 48px!important;gap:4px!important;width:100%;position:relative}
+  nav>.nav-primary{display:flex;min-width:0;min-height:36px;padding:5px 2px!important;font-size:10px!important;line-height:1.05!important;white-space:normal;overflow-wrap:anywhere;text-align:center;align-items:center;justify-content:center}
+  nav>.nav-primary[data-tab="clasificacion"]{font-size:9px!important}
+  .nav-more{display:block!important;position:relative!important;width:auto!important;min-width:0}
+  .nav-more>summary{display:flex!important;min-height:36px;padding:5px 2px!important;align-items:center;justify-content:center;font-size:10px!important;line-height:1!important;white-space:nowrap}
+  .nav-more-menu{position:absolute;right:0;top:calc(100% + 5px);width:min(220px,72vw);padding:8px;gap:5px}
+  .nav-more-menu button{padding:8px 5px!important;font-size:10px!important;line-height:1.15!important}
 }
 </style>
 </head>
@@ -516,7 +540,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 const SUPABASE_URL = "https://eypzjgszqazuqioarxsh.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_uZSEIyj4kgZSolfuF3LYYQ_IwiEXKZz";
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const HOUSES = {stark:{name:"Casa Stark",sigil:"🐺"},lannister:{name:"Casa Lannister",sigil:"🦁"},baratheon:{name:"Casa Tyrell",sigil:"🌹",color:"#75a84a"},targaryen:{name:"Casa Targaryen",sigil:"🐉"}};
+const HOUSES = {stark:{name:"Casa Stark",sigil:"🐺"},lannister:{name:"Casa Lannister",sigil:"🦁"},baratheon:{name:"Casa Tyrell",sigil:"🌹"},targaryen:{name:"Casa Targaryen",sigil:"🐉"}};
 let participants=[], scores=[], currentUser=null, isAdmin=false, isOwner=false, activeProfile=null, currentParticipantId=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
