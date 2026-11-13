@@ -1070,7 +1070,7 @@ function publicTaskCard(m,kind){
  else if(Number(m.available_slots||0)<=0){action='<span class="notice">No quedan plazas disponibles.</span>'}
  else {action=`<button class="primary small" data-join-public-task="${esc(m.id)}">Apuntarme a esta tarea</button>`}
  const people=Array.isArray(m.participants)&&m.participants.length?`<div class="tag" style="margin-top:8px">Participantes: ${m.participants.map(x=>esc(x.name)).join(", ")}</div>`:"";
- return `<article class="card public-task-card"><div class="tag">${isProfile?"MISIÓN PERMANENTE":`MISIÓN ${m.mission_number??"·"} · ${esc(publicDayNames[m.day]||m.day||"")}`}${m.event_label?` · ${esc(m.event_label)}`:""}</div><div class="househead" style="margin-top:8px"><div style="flex:1"><h3 style="margin:3px 0">${esc(m.title)}</h3><div class="tag">${esc(status)}</div></div><strong class="points">${Number(m.points||0)} pts</strong></div><p>${esc(m.description||"")}</p>${!isProfile?`<div class="tag">${kind==="upcoming"?`Apertura: ${esc(publicTaskDate(m.unlock_at))}`:`Plazas: ${Number(m.available_slots??0)} de ${Number(m.max_participants||0)} disponibles`}</div>`:""}${people}<div style="margin-top:12px">${action}</div></article>`;
+ return `<article class="card public-task-card"><div class="tag">${isProfile?"MISIÓN PERMANENTE":`MISIÓN ${m.mission_number??"·"} · ${esc(publicDayNames[m.day]||m.day||"")}`}${m.event_label?` · ${esc(m.event_label)}`:""}</div><div class="househead" style="margin-top:8px"><div style="flex:1"><h3 style="margin:3px 0">${esc(m.title)}</h3><div class="tag">${esc(status)}</div></div><strong class="points">${Number(m.points||0)} pts</strong></div><p>${esc(m.description||"")}</p>${!isProfile&&kind!=="upcoming"?`<div class="tag">Plazas: ${Number(m.available_slots??0)} de ${Number(m.max_participants||0)} disponibles</div>`:""}${people}<div style="margin-top:12px">${action}</div></article>`;
 }
 async function loadMissionBoard(){
  const box=$("missionBoard");if(!box)return;const token=currentProfileToken();
@@ -1081,14 +1081,14 @@ async function loadMissionBoard(){
  const d=publicResult.data,profile=d.profile_setup||{};
  const profileMission={id:"profile-setup",mission_number:0,title:"Configurar el perfil",description:"Completa los tres campos de tu identidad en Poniente: apodo o título, lema personal y presentación. Esta misión es individual y obligatoria para todos los participantes.",day:"permanent",event_label:"Mi perfil",points:Number(profile.points||5),is_profile_setup:true,completed:profile.completed===true};
  const completed=d.completed||[],completedIds=new Set(completed.map(x=>x.id));const available=(d.available||[]).filter(x=>!completedIds.has(x.id)),upcoming=(d.upcoming||[]).filter(x=>!completedIds.has(x.id));
- let html='<h3 style="grid-column:1/-1">Misiones para todos</h3>'+publicTaskCard(profileMission,"available");
+ let html='';
+ if(!profileMission.completed)html+='<h3 style="grid-column:1/-1">Misiones para todos</h3>'+publicTaskCard(profileMission,"available");
  if(available.length)html+='<h3 style="grid-column:1/-1">Tareas abiertas</h3>'+available.map(m=>publicTaskCard(m,"available")).join("");
  if(upcoming.length)html+='<h3 style="grid-column:1/-1">Próximamente</h3>'+upcoming.map(m=>publicTaskCard(m,"upcoming")).join("");
- if(completed.length)html+='<h3 style="grid-column:1/-1">Tareas completadas</h3>'+completed.map(m=>publicTaskCard(m,"completed")).join("");
  const oldMissions=await addMissionImages(oldResult.data?.missions||[]);
  if(oldResult.error){html+=`<div class="notice bad" style="grid-column:1/-1">No se han podido cargar los desafíos anteriores: ${esc(oldResult.error.message)}</div>`}
  else if(oldMissions.length){html+='<h3 style="grid-column:1/-1">Desafíos y misiones del tablón</h3>'+oldMissions.map(m=>`<article class="card"><div class="tag">${m.mission_number?`MISIÓN ${m.mission_number} · `:""}${m.target_type==="house"?"MISIÓN DE CASA":"MISIÓN INDIVIDUAL"}</div><h3>${esc(m.title)}</h3>${m.image_path?`<img class="mission-art" src="${sb.storage.from("mission-images").getPublicUrl(m.image_path).data.publicUrl}" alt="Imagen de ${esc(m.title)}">`:""}<p>${esc(m.intro_text||"")}</p><p>${esc(m.description||"")}</p><div class="formactions"><strong class="points">${m.points} pts</strong><span class="tag">Plazas: ${m.available_slots}/${m.max_participants}</span></div><button class="primary small" data-accept-board="${esc(m.id)}" ${m.available_slots<=0?"disabled":""}>Aceptar misión</button></article>`).join("")}
- if(!available.length&&!upcoming.length&&!completed.length&&!oldMissions.length)html+='<p class="muted" style="grid-column:1/-1">Todavía no hay más misiones publicadas.</p>';
+ if(!available.length&&!upcoming.length&&!oldMissions.length)html+='<p class="muted" style="grid-column:1/-1">Todavía no hay más misiones publicadas.</p>';
  box.innerHTML=html;
  box.querySelectorAll('[data-go-profile]').forEach(b=>b.onclick=()=>{showSection("perfil");showProfile(token)});
  box.querySelectorAll('[data-join-public-task]').forEach(b=>b.onclick=()=>joinPublicTask(b.dataset.joinPublicTask));
