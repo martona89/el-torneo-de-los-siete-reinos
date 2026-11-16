@@ -1207,9 +1207,9 @@ async function submitCanManyeQuiz(){
   for(let i=0;i<CAN_MANYE_STORIES.length;i++){
     const selected=document.querySelector(`input[name="canManyeAnswer${i}"]:checked`);
     if(!selected){notice("canManyeQuizMessage",`Te falta responder la historia ${i+1}.`,false);document.querySelector(`input[name="canManyeAnswer${i}"]`)?.scrollIntoView({behavior:"smooth",block:"center"});return}
-    answers.push(selected.value);
+    answers.push(selected.value === "C" ? "CIERTA" : selected.value === "F" ? "FALSA" : selected.value);
   }
-  if(answers.length!==20){notice("canManyeQuizMessage","Debes enviar exactamente 20 respuestas.",false);return}
+  if(answers.length!==20 || answers.some(a=>a!=="CIERTA" && a!=="FALSA")){notice("canManyeQuizMessage","Debes enviar exactamente 20 respuestas válidas.",false);return}
   if(!confirm("¿Quieres sellar definitivamente tus 20 respuestas? Solo tendrás un intento y no podrás modificarlas."))return;
   const button=$("submitCanManyeQuiz");button.disabled=true;
   const {data,error}=await sb.rpc("submit_can_manye_quiz",{p_profile_token:token,p_answers:answers});
