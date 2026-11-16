@@ -51,7 +51,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 @media(max-width:650px){
   nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%}
   nav>.nav-primary{min-width:0;padding:9px 4px;font-size:12px;line-height:1.15;min-height:42px;display:flex;align-items:center;justify-content:center;text-align:center}
-  nav>.tab[data-tab="participantes"],nav>.tab[data-tab="perfil"],nav>.tab[data-tab="premios"],nav>.tab[data-tab="eltorneo"],nav>.tab[data-tab="guerras"],nav>.tab[data-tab="admin"]{display:none!important}
+  nav>.tab[data-tab="participantes"],nav>.tab[data-tab="perfil"],nav>.tab[data-tab="premios"],nav>.tab[data-tab="quiz"],nav>.tab[data-tab="eltorneo"],nav>.tab[data-tab="guerras"],nav>.tab[data-tab="admin"]{display:none!important}
   .nav-more{display:block;grid-column:1/-1;width:100%}
   .nav-more>summary{padding:8px 12px;font-size:12px;line-height:1.2;min-height:36px}
   .nav-more-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:7px 0 2px}
@@ -143,7 +143,7 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 </head>
 <body>
 <header><div class="head"><div><div class="brand">EL TORNEO DE LOS SIETE REINOS</div><div class="sub">CRÓNICAS · HONOR · LEALTAD</div></div>
-<nav class="no-print" aria-label="Navegación principal"><button class="tab active nav-primary" data-tab="clasificacion">Clasificación</button><button class="tab nav-primary" data-tab="misiones">Misiones</button><button class="tab nav-primary" data-tab="agenda">Agenda</button><button class="tab nav-primary" data-tab="album">Álbum</button><details class="nav-more"><summary>Más <span aria-hidden="true">⌄</span></summary><div class="nav-more-menu"><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="eltorneo">El torneo</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="admin">Admin</button><button class="tab nav-extra" data-tab="participantes">Participantes</button><button class="tab nav-extra" data-tab="guerras">Hazañas</button></div></details></nav></div></header>
+<nav class="no-print" aria-label="Navegación principal"><button class="tab active nav-primary" data-tab="clasificacion">Clasificación</button><button class="tab nav-primary" data-tab="misiones">Misiones</button><button class="tab nav-primary" data-tab="agenda">Agenda</button><button class="tab nav-primary" data-tab="album">Álbum</button><details class="nav-more"><summary>Más <span aria-hidden="true">⌄</span></summary><div class="nav-more-menu"><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="eltorneo">El torneo</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="quiz">Quiz</button><button class="tab" data-tab="admin">Admin</button><button class="tab nav-extra" data-tab="participantes">Participantes</button><button class="tab nav-extra" data-tab="guerras">Hazañas</button></div></details></nav></div></header>
 <main>
 <section id="clasificacion" class="section active">
 <div class="hero"><div class="eyebrow">Las casas han sido convocadas</div><h1>Que comience el torneo</h1><p>Quince nombres. Cuatro casas. Dos coronas por conquistar.</p></div>
@@ -151,6 +151,13 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 </section>
 <section id="participantes" class="section"><h2>Los participantes</h2><p class="muted">Consulta los perfiles de quienes compiten por los Siete Reinos.</p><div id="participantGrid" class="grid"></div></section>
 <section id="perfil" class="section"><div id="profileView" class="card"><h2>Mi perfil</h2><p class="muted">Entra escaneando tu QR personal o escribiendo tu palabra secreta.</p><div class="formgrid"><div><label>Palabra secreta</label><input id="profileAccessWord" maxlength="40" autocomplete="off" placeholder="Ej. SANGREDEDRAK"></div><div style="align-self:end"><button class="primary" id="enterByWord">Entrar en mi perfil</button></div></div><div id="profileAccessMsg"></div></div></section>
+
+<section id="quiz" class="section">
+  <div class="hero"><div class="eyebrow">Los archivos secretos de Can Manyé</div><h1>¿Cierta o falsa?</h1><p>Veinte historias. Una sola oportunidad para demostrar cuánto sabes de la masía.</p></div>
+  <div id="quizContent" class="card"><div class="notice">Consultando los archivos de Can Manyé…</div></div>
+  <div id="quizLeaderboard" style="margin-top:18px"></div>
+</section>
+
 <section id="premios" class="section">
   <h2>Los Premios de Poniente</h2>
   <p class="muted">Las hazañas serán reveladas en la gran gala. Tus votos son secretos y solo tú puedes consultar tu papeleta antes del cierre.</p>
@@ -482,7 +489,7 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 <div id="loginBox"><label>Correo de administración</label><input id="adminEmail" type="email" placeholder="Correo de administración"><button class="primary" id="sendLogin">Enviar enlace de acceso</button><div id="loginMsg" class="notice">Recibirás un enlace de acceso por correo. No compartas ese enlace.</div></div>
 <div id="adminPanel" class="hidden">
 <div class="formactions"><strong id="adminWelcome"></strong></div>
-<div class="tabs admin-tabs"><button class="tab active" data-admin="points">Puntuaciones</button><button class="tab" data-admin="missions">Misiones</button><button class="tab" data-admin="publicTasks">Tareas de la masía</button><button class="tab" data-admin="reviews">Pruebas pendientes</button><button class="tab" data-admin="album">Álbum de fotos</button><button class="tab" data-admin="qrs">QR personales</button><button class="tab" data-admin="teams">Casas</button><button class="tab" data-admin="portraits">Retratos</button><button class="tab" data-admin="managers">Administradores</button><button class="tab" data-admin="documents">Documentos e impresión</button></div>
+<div class="tabs admin-tabs"><button class="tab active" data-admin="points">Puntuaciones</button><button class="tab" data-admin="missions">Misiones</button><button class="tab" data-admin="publicTasks">Tareas de la masía</button><button class="tab" data-admin="quiz">Quiz</button><button class="tab" data-admin="reviews">Pruebas pendientes</button><button class="tab" data-admin="album">Álbum de fotos</button><button class="tab" data-admin="qrs">QR personales</button><button class="tab" data-admin="teams">Casas</button><button class="tab" data-admin="portraits">Retratos</button><button class="tab" data-admin="managers">Administradores</button><button class="tab" data-admin="documents">Documentos e impresión</button></div>
 <div id="adminPoints">
 <h3>Conceder puntos</h3>
 <div class="formgrid"><div><label>Tipo de puntuación</label><select id="scoreKind"><option value="individual">Individual</option><option value="collective">Colectiva · Casa</option></select></div>
@@ -496,6 +503,18 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 <div id="adminTeams" class="hidden"><h3>Participantes y casas</h3><div class="card" style="margin:14px 0"><h3>Cambiar un participante de casa</h3><p class="muted">El cambio solo afecta a las puntuaciones futuras. Los puntos individuales y colectivos anteriores se conservan.</p><div class="formgrid"><div><label>Participante</label><select id="editParticipant"></select></div><div><label>Nueva casa</label><select id="editHouse"></select></div></div><button class="primary" id="saveHouse">Guardar cambio de casa</button><div id="teamMsg"></div></div><div class="scroll" id="teamTable"></div></div>
 <div id="adminPortraits" class="hidden"><h3>Retratos de los participantes</h3><p class="muted">Sube aquí el retrato de cada persona. La misma imagen aparecerá en su perfil y en la lista de participantes. Formatos JPG, PNG o WebP; máximo 8 MB.</p><div id="portraitAdminList"></div><div id="portraitAdminMsg"></div></div>
 <div id="adminQrs" class="hidden"><h3>QR individuales</h3><p class="muted">Imprime las tarjetas y entrega cada QR a su participante.</p><button class="primary no-print" id="printQrs">Imprimir tarjetas QR</button><div id="qrGrid" class="qrgrid" style="margin-top:15px"></div><div id="accessWordsPrivate"><h3 style="margin-top:28px">Listado privado de palabras secretas</h3><p class="muted">Solo visible para la administradora principal. Entrega a cada participante únicamente su propia palabra.</p><div id="accessWordList" class="scroll"></div></div></div>
+
+<div id="adminQuiz" class="hidden">
+  <h3>Los archivos secretos de Can Manyé</h3>
+  <p class="muted">Activa o desactiva el quiz para que aparezca disponible para los participantes. Aquí puedes consultar los intentos y la clasificación.</p>
+  <div class="card" style="margin:12px 0">
+    <div id="adminQuizStatus" class="notice">Consultando el estado del quiz…</div>
+    <div class="formactions"><button class="primary" id="adminQuizToggle">Activar quiz</button><button class="small" id="adminQuizRefresh">Actualizar resultados</button></div>
+    <div id="adminQuizMessage"></div>
+  </div>
+  <div id="adminQuizResults"></div>
+</div>
+
 <div id="adminPublicTasks" class="hidden">
 <h3>Misiones públicas · Tareas de la masía</h3>
 <p class="muted">Gestiona las tareas que aparecen en el Tablón de Poniente y valida las confirmaciones de quienes las realizan.</p>
@@ -571,14 +590,14 @@ function bindPortraitOpeners(root){root.querySelectorAll("[data-portrait]").forE
 $("closePortraitModal").addEventListener("click",()=>$("portraitModal").classList.add("hidden"));$("portraitModal").addEventListener("click",e=>{if(e.target===$("portraitModal"))$("portraitModal").classList.add("hidden")});
 function fillSelectors(){const opts=participants.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");$("scorePlayer").innerHTML=opts;$("editParticipant").innerHTML=opts;const h=Object.entries(HOUSES).map(([id,v])=>`<option value="${id}">${v.sigil} ${v.name}</option>`).join("");$("scoreHouse").innerHTML=h;$("editHouse").innerHTML=h;syncEditHouse()}
 function syncEditHouse(){const p=participants.find(x=>x.id===$("editParticipant").value);if(p)$("editHouse").value=p.house_id}
-function showSection(id){document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));const moreLink=document.querySelector(".nav-more");if(moreLink)moreLink.classList.toggle("has-active",!!moreLink.querySelector(`[data-tab="${id}"]`));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
+function showSection(id){document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));const moreLink=document.querySelector(".nav-more");if(moreLink)moreLink.classList.toggle("has-active",!!moreLink.querySelector(`[data-tab="${id}"]`));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="quiz"){loadCanManyeQuiz()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
 $("unlockSecretMission").addEventListener("click",async()=>{const token=currentProfileToken(),word=$("secretMissionWord").value.trim();if(!token){notice("secretMissionMessage","Primero identifícate desde Mi perfil con tu QR o palabra de acceso.",false);return}if(!word){notice("secretMissionMessage","Escribe la palabra secreta.",false);return}const {data,error}=await sb.rpc("accept_secret_mission",{p_profile_token:token,p_secret_word:word});if(error||!data?.ok){notice("secretMissionMessage",error?.message||data?.message||"No se pudo desbloquear la misión.",false);return}notice("secretMissionMessage",data.message+" «"+data.title+"»",true);$("secretMissionWord").value="";await loadMyMissions();showMissionView("mine")});
 $("refreshMissionBoard").addEventListener("click",()=>loadMissionBoard()); function showMissionView(view){document.querySelectorAll("[data-mission-view]").forEach(x=>x.classList.toggle("active",x.dataset.missionView===view));$("missionBoard").classList.toggle("hidden",view!=="board");$("myMissions").classList.toggle("hidden",view!=="mine");$("secretMissionView").classList.toggle("hidden",view!=="secret");if(view==="mine"){loadMyMissions().then(()=>loadMyPublicTasks())}}
 document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{const tab=b.dataset.tab;showSection(tab);const more=b.closest(".nav-more");if(more)more.open=false;if(tab==="perfil"){const token=currentProfileToken();if(token)showProfile(token);else showProfileEntry()}}));
 document.querySelectorAll("[data-open-tab]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showSection(a.dataset.openTab);window.scrollTo({top:0,behavior:"smooth"})}));
 document.querySelectorAll("[data-mission-view]").forEach(b=>b.addEventListener("click",()=>showMissionView(b.dataset.missionView)));
 document.querySelectorAll("[data-sub]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("[data-sub]").forEach(x=>x.classList.toggle("active",x===b));$("individualBoard").classList.toggle("hidden",b.dataset.sub!=="individual");$("houseBoard").classList.toggle("hidden",b.dataset.sub!=="casas")}));
-document.querySelectorAll("[data-admin]").forEach(b=>b.addEventListener("click",()=>{if(["missions","managers","documents"].includes(b.dataset.admin)&&!isOwner)return;document.querySelectorAll("[data-admin]").forEach(x=>x.classList.toggle("active",x===b));["points","teams","portraits","qrs","managers","missions","publicTasks","reviews","documents","album"].forEach(k=>{const panel=$("admin"+k[0].toUpperCase()+k.slice(1));if(panel)panel.classList.toggle("hidden",k!==b.dataset.admin)});if(b.dataset.admin==="missions")loadAdminMissions();if(b.dataset.admin==="publicTasks")loadAdminPublicTasks();if(b.dataset.admin==="reviews")loadPendingMissions();if(b.dataset.admin==="album")loadAdminAlbum();if(b.dataset.admin==="teams")renderTeamTable();if(b.dataset.admin==="portraits")loadPortraitAdmin();if(b.dataset.admin==="qrs")loadQrCards();if(b.dataset.admin==="managers")loadManagers()}));
+document.querySelectorAll("[data-admin]").forEach(b=>b.addEventListener("click",()=>{if(["missions","managers","documents"].includes(b.dataset.admin)&&!isOwner)return;document.querySelectorAll("[data-admin]").forEach(x=>x.classList.toggle("active",x===b));["points","teams","portraits","qrs","managers","missions","publicTasks","quiz","reviews","documents","album"].forEach(k=>{const panel=$("admin"+k[0].toUpperCase()+k.slice(1));if(panel)panel.classList.toggle("hidden",k!==b.dataset.admin)});if(b.dataset.admin==="missions")loadAdminMissions();if(b.dataset.admin==="publicTasks")loadAdminPublicTasks();if(b.dataset.admin==="quiz")loadAdminQuiz();if(b.dataset.admin==="reviews")loadPendingMissions();if(b.dataset.admin==="album")loadAdminAlbum();if(b.dataset.admin==="teams")renderTeamTable();if(b.dataset.admin==="portraits")loadPortraitAdmin();if(b.dataset.admin==="qrs")loadQrCards();if(b.dataset.admin==="managers")loadManagers()}));
 function updateScoreOptions(){const collective=$("scoreKind").value==="collective";$("playerWrap").classList.toggle("hidden",collective);$("houseWrap").classList.toggle("hidden",!collective);const select=$("scorePoints");if(collective){select.innerHTML='<option value="20" selected>+20</option>';}else{select.innerHTML='<option value="5" selected>+5</option><option value="10">+10</option><option value="15">+15</option><option value="20">+20</option><option value="25">+25</option><option value="30">+30</option><option value="50">+50</option><option value="100">+100 · Cluedo</option><option value="-5">-5</option><option value="-10">-10</option><option value="-20">-20</option>';}}
 $("scoreKind").addEventListener("change",updateScoreOptions);
 updateScoreOptions();
@@ -1122,6 +1141,102 @@ async function cancelPublicTask(id){if(!confirm("¿Cancelar esta tarea? Dejará 
 function clearPublicTaskForm(){$("publicTaskEditId").value="";["publicTaskTitle","publicTaskEvent","publicTaskDescription","publicTaskUnlock"].forEach(id=>$(id).value="");$("publicTaskDay").value="friday";$("publicTaskPoints").value=5;$("publicTaskSlots").value=2;$("publicTaskFormTitle").textContent="Crear tarea pública"}
 $("savePublicTask")?.addEventListener("click",async()=>{const id=$("publicTaskEditId").value||null,title=$("publicTaskTitle").value.trim();if(!title){notice("publicTaskAdminMsg","Escribe un título.",false);return}const local=$("publicTaskUnlock").value;const unlock=local?new Date(local).toISOString():null;const {data,error}=await sb.rpc("admin_save_public_task",{p_mission_id:id,p_title:title,p_description:$("publicTaskDescription").value,p_day:$("publicTaskDay").value,p_event_label:$("publicTaskEvent").value,p_points:Number($("publicTaskPoints").value),p_max_participants:Number($("publicTaskSlots").value),p_unlock_at:unlock});if(error||!data?.ok){notice("publicTaskAdminMsg",error?.message||data?.message||"No se pudo guardar.",false);return}notice("publicTaskAdminMsg",id?"Tarea actualizada.":"Tarea creada.",true);clearPublicTaskForm();await loadAdminPublicTasks();await loadMissionBoard()});
 $("cancelPublicTaskEdit")?.addEventListener("click",clearPublicTaskForm);
+
+
+const CAN_MANYE_STORIES = [
+{title:'La guerra del termostato',text:'Un año, alguien subió la calefacción de Can Manyé hasta poner la casa a una temperatura insoportable. El resto de invitados acabó en manga corta y sudando. Aquello desencadenó una auténtica guerra del termostato, con gente subiendo y bajando la temperatura a escondidas para intentar imponer su clima ideal.'},
+{title:'El invitado equivocado',text:'Alguien se metió en una habitación equivocada y se acostó en una cama donde ya estaba durmiendo otra persona.'},
+{title:'El misterio de la bañera',text:'Una pareja mantuvo relaciones sexuales en la bañera de Can Manyé y de aquel encuentro surgió un embarazo.'},
+{title:'La compra olvidada',text:'Alguien fue expresamente a comprar algo imprescindible para la cena y regresó con todo menos aquello que había ido a buscar.'},
+{title:'El huésped de cuatro patas',text:'En una de las ocasiones, Can Manyé tuvo un huésped muy especial: un chihuahua que pasó allí todo un fin de semana.'},
+{title:'El sábado de los dos supervivientes',text:'Un sábado por la noche, a las 23:30, prácticamente toda la casa estaba durmiendo. De todas las personas que se encontraban en la masía, solamente dos seguían despiertas.'},
+{title:'La ducha interminable',text:'Una persona se pasó tanto tiempo duchándose que se terminó el agua caliente y dejó al resto de invitados sin poder ducharse con agua caliente.'},
+{title:'Una boda entre estas paredes',text:'Una pareja que estará presente en el Torneo celebró su boda en Can Manyé. Además, invitó a varios de los asistentes a pasar allí todo el fin de semana para compartir la celebración del enlace.'},
+{title:'El drama de la oliva',text:'Una persona recibió una bronca monumental por haberse comido una sola oliva de un bote. Una simple aceituna fue suficiente para provocar un conflicto de grandes dimensiones.'},
+{title:'La alarma humana',text:'Un invitado puso tantas alarmas para despertarse que terminó despertando a toda la casa menos a sí mismo.'},
+{title:'La noche junto al fuego',text:'Tres personas consiguieron aguantar despiertas hasta el amanecer. Finalmente, el cansancio pudo con ellas y acabaron durmiéndose en los sofás, delante del fuego. A la mañana siguiente, cuando sus respectivas parejas bajaron a tomarse el café, tuvieron que ir a despertarlas.'},
+{title:'La maldición de las novias',text:'Cada año, alguna de las chicas que acude a la masía con su pareja acaba poniéndose enferma y pasa prácticamente todo el fin de semana en la habitación.'},
+{title:'Los cartones fantasma',text:'Durante todo un fin de semana, alguien estuvo colocando cartones de leche vacíos de nuevo en la nevera. Quienes iban a buscar leche se encontraban una y otra vez con envases que ya no contenían ni una gota.'},
+{title:'El desayuno en pijama',text:'Alguien bajó a desayunar todavía medio dormido y se pasó un buen rato hablando con los demás sin darse cuenta de que llevaba la ropa del revés.'},
+{title:'La ruptura de una vieja amistad',text:'Durante una de las estancias en la masía, se rompió una amistad de muchos años a raíz de un conflicto relacionado con la pareja de uno de los implicados.'},
+{title:'El despertar de la resaca',text:'Una chica se despertó con una resaca tan brutal que estuvo media hora sin poder hablar. Entre varias personas tuvieron que meterla en la bañera para intentar que se recuperara.'},
+{title:'El enviado de la señora',text:'Una noche, uno de los hombres de la casa fue a pedir al resto que guardara silencio porque su mujer se lo había ordenado. Sin embargo, en lugar de retirarse a dormir, acabó uniéndose a los borrachos que todavía seguían despiertos y cantando con ellos. La noche terminó con la correspondiente bronca de su mujer.'},
+{title:'La reunión internacional',text:'A lo largo de las distintas estancias en Can Manyé, han llegado a coincidir personas de al menos cinco nacionalidades diferentes.'},
+{title:'El huésped del váter',text:'Una noche, uno de los invitados se quedó dormido sentado en el váter del baño cagando. No es una forma especialmente cómoda de descansar, pero parece que el sueño pudo con él.'},
+{title:'La botella desaparecida',text:'Un domingo por la mañana, alguien empezó a buscar por toda la masía una botella de vino que había desaparecido la noche anterior. Después de registrar varias habitaciones y preguntar a todos los invitados, acabó apareciendo dentro de un armario de la cocina.'}
+];
+const CAN_MANYE_INTRO = "A lo largo de los años, Can Manyé ha sido escenario de acontecimientos extraordinarios, noches memorables, dramas inesperados y situaciones difíciles de explicar.\n\nLa Corona ha recopilado 20 historias que supuestamente han ocurrido entre estos muros. Algunas son completamente ciertas. Otras han sido inventadas para confundir a quienes creen conocer todos los secretos de la masía.\n\nTu misión es leer cada historia y decidir individualmente si es CIERTA o FALSA.\n\nNo te fíes de las apariencias. En Can Manyé, la realidad puede ser mucho más increíble que cualquier mentira.";
+let canManyeQuizState = null;
+function renderCanManyeQuiz(){
+  const box=$("quizContent"); if(!box)return;
+  if(!canManyeQuizState){box.innerHTML='<div class="notice">No se ha podido consultar el estado del quiz.</div>';return}
+  if(!canManyeQuizState.is_enabled && !canManyeQuizState.enabled){
+    box.innerHTML=`<div class="eyebrow">Los archivos permanecen sellados</div><h2>El quiz todavía no está abierto</h2><p class="muted">La Corona aún no ha dado permiso para consultar las veinte historias. Vuelve cuando se anuncie su apertura.</p>`;
+    return;
+  }
+  const submission=canManyeQuizState.submission||canManyeQuizState.result||null;
+  if(canManyeQuizState.already_submitted||canManyeQuizState.has_submitted||submission){
+    const correct=Number(submission?.correct_count??canManyeQuizState.correct_count??0);
+    const score=Number(submission?.score??canManyeQuizState.score??correct*5);
+    box.innerHTML=`<div class="eyebrow">Tu veredicto ha quedado sellado</div><h2>Has completado el desafío</h2><p>Has acertado <strong>${correct} de 20</strong> historias.</p><div class="awards-countdown"><div class="awards-time"><strong>${score}</strong><span>PUNTOS</span></div></div><p class="muted">Tu respuesta ya está registrada y no se puede modificar. Consulta la clasificación más abajo.</p>`;
+    return;
+  }
+  const cards=CAN_MANYE_STORIES.map((story,i)=>`<article class="card" style="margin:12px 0"><div class="tag">HISTORIA ${i+1} DE 20</div><h3>${i+1}. ${esc(story.title)}</h3><p>${esc(story.text)}</p><div class="formactions" style="gap:10px"><label style="display:flex;align-items:center;gap:7px;cursor:pointer"><input type="radio" name="canManyeAnswer${i}" value="C" style="width:auto"> CIERTA</label><label style="display:flex;align-items:center;gap:7px;cursor:pointer"><input type="radio" name="canManyeAnswer${i}" value="F" style="width:auto"> FALSA</label></div></article>`).join("");
+  box.innerHTML=`<div class="eyebrow">Los archivos secretos de Can Manyé</div><h2>Veinte historias. Veinte veredictos.</h2><p>${CAN_MANYE_INTRO.replace(/\n\n/g,"</p><p>")}</p><div id="canManyeQuestions">${cards}</div><div class="formactions"><button class="primary" id="submitCanManyeQuiz">Sellar mis respuestas</button><span class="muted">Cada acierto suma 5 puntos. Las respuestas incorrectas suman 0.</span></div><div id="canManyeQuizMessage"></div>`;
+  $("submitCanManyeQuiz").onclick=submitCanManyeQuiz;
+}
+async function loadCanManyeQuiz(){
+  const box=$("quizContent");if(!box)return;
+  const token=currentProfileToken();
+  if(!token){box.innerHTML='<h2>Identifícate para participar</h2><p class="muted">El quiz es individual y solo se puede completar una vez. Entra en Mi perfil con tu QR o palabra secreta y vuelve a esta sección.</p><button class="primary small" id="quizIdentify">Ir a Mi perfil</button>';$("quizIdentify").onclick=()=>{showSection("perfil");showProfileEntry()};return}
+  box.innerHTML='<div class="notice">Consultando los archivos de Can Manyé…</div>';
+  const {data,error}=await sb.rpc("get_can_manye_quiz_state",{p_profile_token:token});
+  if(error||!data?.ok){box.innerHTML=`<div class="notice bad">No se ha podido consultar el quiz: ${esc(error?.message||data?.message||"Error desconocido")}</div>`;return}
+  canManyeQuizState=data;renderCanManyeQuiz();await loadCanManyeQuizLeaderboard();
+}
+async function submitCanManyeQuiz(){
+  const token=currentProfileToken(),answers={};
+  for(let i=0;i<CAN_MANYE_STORIES.length;i++){
+    const selected=document.querySelector(`input[name="canManyeAnswer${i}"]:checked`);
+    if(!selected){notice("canManyeQuizMessage",`Te falta responder la historia ${i+1}.`,false);document.querySelector(`input[name="canManyeAnswer${i}"]`)?.scrollIntoView({behavior:"smooth",block:"center"});return}
+    answers[String(i+1)]=selected.value;
+  }
+  if(!confirm("¿Quieres sellar definitivamente tus 20 respuestas? Solo tendrás un intento y no podrás modificarlas."))return;
+  const button=$("submitCanManyeQuiz");button.disabled=true;
+  const {data,error}=await sb.rpc("submit_can_manye_quiz",{p_profile_token:token,p_answers:answers});
+  if(error||!data?.ok){button.disabled=false;notice("canManyeQuizMessage",error?.message||data?.message||"No se pudieron guardar tus respuestas.",false);return}
+  canManyeQuizState={...canManyeQuizState,...data,already_submitted:true,submission:data.submission||data};
+  renderCanManyeQuiz();await loadCanManyeQuizLeaderboard();await loadData();
+}
+async function loadCanManyeQuizLeaderboard(){
+  const box=$("quizLeaderboard");if(!box)return;
+  const {data,error}=await sb.rpc("get_can_manye_quiz_leaderboard");
+  if(error){box.innerHTML=`<div class="notice bad">No se pudo cargar la clasificación del quiz: ${esc(error.message)}</div>`;return}
+  const rows=Array.isArray(data)?data:(data?.leaderboard||data?.ranking||[]);
+  box.innerHTML=`<h2>Clasificación del quiz</h2>${rows.length?`<div class="scroll"><table><thead><tr><th>#</th><th>Participante</th><th>Aciertos</th><th>Puntos</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.nickname||r.participant_name||r.name||"Participante")}</td><td>${Number(r.correct_count??0)}/20</td><td><strong>${Number(r.score??0)}</strong></td></tr>`).join("")}</tbody></table></div>`:'<p class="muted">Todavía no hay resultados registrados.</p>'}`;
+}
+async function loadAdminQuiz(){
+  if(!isAdmin)return;
+  $("adminQuizStatus").textContent="Consultando el estado del quiz…";
+  const {data,error}=await sb.rpc("admin_get_can_manye_quiz");
+  if(error||!data?.ok){$("adminQuizStatus").textContent="No se pudo consultar el quiz: "+(error?.message||data?.message||"Error");return}
+  const enabled=!!(data.is_enabled??data.enabled??data.settings?.is_enabled);
+  $("adminQuizStatus").textContent=enabled?"El quiz está ACTIVADO y visible para los participantes.":"El quiz está DESACTIVADO y permanece cerrado.";
+  $("adminQuizToggle").textContent=enabled?"Desactivar quiz":"Activar quiz";
+  $("adminQuizToggle").dataset.enabled=String(enabled);
+  const rows=data.submissions||data.results||data.leaderboard||[];
+  $("adminQuizResults").innerHTML=`<h3>Intentos registrados (${rows.length})</h3>${rows.length?`<div class="scroll"><table><thead><tr><th>Participante</th><th>Aciertos</th><th>Puntos</th><th>Enviado</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.nickname||r.participant_name||r.name||"Participante")}</td><td>${Number(r.correct_count??0)}/20</td><td>${Number(r.score??0)}</td><td>${r.submitted_at?new Date(r.submitted_at).toLocaleString("es-ES"):"—"}</td></tr>`).join("")}</tbody></table></div>`:'<p class="muted">Todavía no hay intentos.</p>'}`;
+}
+$("adminQuizToggle")?.addEventListener("click",async()=>{
+  const next=$("adminQuizToggle").dataset.enabled!=="true";
+  $("adminQuizToggle").disabled=true;
+  const {data,error}=await sb.rpc("admin_set_can_manye_quiz_enabled",{p_enabled:next});
+  $("adminQuizToggle").disabled=false;
+  if(error||data?.ok===false){notice("adminQuizMessage",error?.message||data?.message||"No se pudo cambiar el estado.",false);return}
+  notice("adminQuizMessage",next?"Quiz activado. Ya está disponible para los participantes.":"Quiz desactivado.");
+  await loadAdminQuiz();
+});
+$("adminQuizRefresh")?.addEventListener("click",loadAdminQuiz);
 
 async function init(){
  await checkAdmin();
