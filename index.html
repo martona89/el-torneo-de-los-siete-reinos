@@ -154,6 +154,14 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 
 <section id="quiz" class="section">
   <div class="hero"><div class="eyebrow">Los archivos secretos de Can Manyé</div><h1>¿Cierta o falsa?</h1><p>Veinte historias. Una sola oportunidad para demostrar cuánto sabes de la masía.</p></div>
+  <div class="card" id="canManyeQuizIntroduction">
+    <div class="eyebrow">Los archivos secretos de Can Manyé</div>
+    <h2>Veinte historias. Veinte veredictos.</h2>
+    <p>A lo largo de los años, Can Manyé ha sido escenario de acontecimientos extraordinarios, noches memorables, dramas inesperados y situaciones difíciles de explicar.</p>
+    <p>La Corona ha recopilado 20 historias que supuestamente han ocurrido entre estos muros. Algunas son completamente ciertas. Otras han sido inventadas para confundir a quienes creen conocer todos los secretos de la masía.</p>
+    <p>Tu misión es leer cada historia y decidir individualmente si es CIERTA o FALSA.</p>
+    <p>No te fíes de las apariencias. En Can Manyé, la realidad puede ser mucho más increíble que cualquier mentira.</p>
+  </div>
   <div id="quizContent" class="card"><div class="notice">Consultando los archivos de Can Manyé…</div></div>
   <div id="quizLeaderboard" style="margin-top:18px"></div>
 </section>
@@ -1182,7 +1190,7 @@ function renderCanManyeQuiz(){
     return;
   }
   const cards=CAN_MANYE_STORIES.map((story,i)=>`<article class="card" style="margin:12px 0"><div class="tag">HISTORIA ${i+1} DE 20</div><h3>${i+1}. ${esc(story.title)}</h3><p>${esc(story.text)}</p><div class="formactions" style="gap:10px"><label style="display:flex;align-items:center;gap:7px;cursor:pointer"><input type="radio" name="canManyeAnswer${i}" value="C" style="width:auto"> CIERTA</label><label style="display:flex;align-items:center;gap:7px;cursor:pointer"><input type="radio" name="canManyeAnswer${i}" value="F" style="width:auto"> FALSA</label></div></article>`).join("");
-  box.innerHTML=`<div class="eyebrow">Los archivos secretos de Can Manyé</div><h2>Veinte historias. Veinte veredictos.</h2><p>${CAN_MANYE_INTRO.replace(/\n\n/g,"</p><p>")}</p><div id="canManyeQuestions">${cards}</div><div class="formactions"><button class="primary" id="submitCanManyeQuiz">Sellar mis respuestas</button><span class="muted">Cada acierto suma 5 puntos. Las respuestas incorrectas suman 0.</span></div><div id="canManyeQuizMessage"></div>`;
+  box.innerHTML=`<div id="canManyeQuestions">${cards}</div><div class="formactions"><button class="primary" id="submitCanManyeQuiz">Sellar mis respuestas</button><span class="muted">Cada acierto suma 5 puntos. Las respuestas incorrectas suman 0.</span></div><div id="canManyeQuizMessage"></div>`;
   $("submitCanManyeQuiz").onclick=submitCanManyeQuiz;
 }
 async function loadCanManyeQuiz(){
@@ -1195,12 +1203,13 @@ async function loadCanManyeQuiz(){
   canManyeQuizState=data;renderCanManyeQuiz();await loadCanManyeQuizLeaderboard();
 }
 async function submitCanManyeQuiz(){
-  const token=currentProfileToken(),answers={};
+  const token=currentProfileToken(),answers=[];
   for(let i=0;i<CAN_MANYE_STORIES.length;i++){
     const selected=document.querySelector(`input[name="canManyeAnswer${i}"]:checked`);
     if(!selected){notice("canManyeQuizMessage",`Te falta responder la historia ${i+1}.`,false);document.querySelector(`input[name="canManyeAnswer${i}"]`)?.scrollIntoView({behavior:"smooth",block:"center"});return}
-    answers[String(i+1)]=selected.value;
+    answers.push(selected.value);
   }
+  if(answers.length!==20){notice("canManyeQuizMessage","Debes enviar exactamente 20 respuestas.",false);return}
   if(!confirm("¿Quieres sellar definitivamente tus 20 respuestas? Solo tendrás un intento y no podrás modificarlas."))return;
   const button=$("submitCanManyeQuiz");button.disabled=true;
   const {data,error}=await sb.rpc("submit_can_manye_quiz",{p_profile_token:token,p_answers:answers});
