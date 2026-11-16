@@ -1183,7 +1183,7 @@ function renderCanManyeQuiz(){
     return;
   }
   const submission=canManyeQuizState.submission||canManyeQuizState.result||null;
-  if(canManyeQuizState.already_submitted||canManyeQuizState.has_submitted||submission){
+  if(canManyeQuizState.submitted||canManyeQuizState.already_submitted||canManyeQuizState.has_submitted||submission){
     const correct=Number(submission?.correct_count??canManyeQuizState.correct_count??0);
     const score=Number(submission?.score??canManyeQuizState.score??correct*5);
     box.innerHTML=`<div class="eyebrow">Tu veredicto ha quedado sellado</div><h2>Has completado el desafío</h2><p>Has acertado <strong>${correct} de 20</strong> historias.</p><div class="awards-countdown"><div class="awards-time"><strong>${score}</strong><span>PUNTOS</span></div></div><p class="muted">Tu respuesta ya está registrada y no se puede modificar. Consulta la clasificación más abajo.</p>`;
