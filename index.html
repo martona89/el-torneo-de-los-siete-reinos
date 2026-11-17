@@ -506,7 +506,7 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 <div><label>Puntos</label><select id="scorePoints"><option value="5" selected>+5</option><option value="10">+10</option><option value="15">+15</option><option value="20">+20</option><option value="25">+25</option><option value="30">+30</option><option value="50">+50</option><option value="100">+100</option><option value="-5">-5</option><option value="-10">-10</option><option value="-20">-20</option></select></div></div>
 <label>Descripción del reto (opcional)</label><input id="scoreDescription" maxlength="180" placeholder="Ej. Prueba de arquería, duelo, Cluedo…">
 <p class="notice">Los puntos colectivos se registran para el sábado y se reparten una sola vez a cada integrante de la casa en el momento de concederlos. Los puntos individuales se registran por separado.</p>
-<button class="primary" id="saveScore">Guardar puntuación</button><div id="scoreMsg"></div><div style="margin-top:20px"><button id="toggleHistory" class="small">Mostrar historial de puntuaciones</button><div id="adminHistory" class="hidden" style="margin-top:14px"><h3>Historial de puntuaciones</h3><div class="scroll" id="historyTable"></div></div></div>
+<button class="primary" id="saveScore">Guardar puntuación</button><div id="scoreMsg"></div><div style="margin-top:20px"><div id="adminHistory" style="margin-top:20px"><h3>Historial de puntuaciones</h3><div class="scroll" id="historyTable"></div></div></div>
 </div>
 <div id="adminTeams" class="hidden"><h3>Participantes y casas</h3><div class="card" style="margin:14px 0"><h3>Cambiar un participante de casa</h3><p class="muted">El cambio solo afecta a las puntuaciones futuras. Los puntos individuales y colectivos anteriores se conservan.</p><div class="formgrid"><div><label>Participante</label><select id="editParticipant"></select></div><div><label>Nueva casa</label><select id="editHouse"></select></div></div><button class="primary" id="saveHouse">Guardar cambio de casa</button><div id="teamMsg"></div></div><div class="scroll" id="teamTable"></div></div>
 <div id="adminPortraits" class="hidden"><h3>Retratos de los participantes</h3><p class="muted">Sube aquí el retrato de cada persona. La misma imagen aparecerá en su perfil y en la lista de participantes. Formatos JPG, PNG o WebP; máximo 8 MB.</p><div id="portraitAdminList"></div><div id="portraitAdminMsg"></div></div>
@@ -576,7 +576,7 @@ const houseAccent=id=>HOUSES[id]?.color||"";
 function notice(el,msg,good=true){$(el).innerHTML=`<div class="notice ${good?'good':'bad'}">${esc(msg)}</div>`}
 function totals(){const out={};participants.forEach(p=>out[p.id]=0);scores.forEach(s=>{if(s.kind==="individual"&&s.player_id in out)out[s.player_id]+=Number(s.points);if(s.kind==="collective"&&Array.isArray(s.member_ids))s.member_ids.forEach(id=>{if(id in out)out[id]+=Number(s.points)})});return out}
 function houseTotals(){const out={stark:0,lannister:0,baratheon:0,targaryen:0};scores.filter(s=>s.kind==="collective").forEach(s=>{if(s.house_id in out)out[s.house_id]+=Number(s.points)});return out}
-async function loadData(){const [p,s]=await Promise.all([sb.from("participants").select("id,name,house_id,joined_day,nickname,presentation,motto,portrait_path").order("name"),sb.from("score_entries").select("*").order("created_at",{ascending:false})]);if(p.error)throw p.error;if(s.error)throw s.error;participants=p.data||[];scores=s.data||[];renderAll()}
+async function loadData(){const [p,s]=await Promise.all([sb.from("participants").select("id,name,house_id,joined_day,nickname,presentation,motto,portrait_path").order("name"),sb.from("score_entries").select("*").order("created_at",{ascending:false})]);if(p.error)throw p.error;if(s.error)throw s.error;participants=p.data||[];scores=s.data||[];renderAll();if(isAdmin&&$("historyTable"))renderHistory()}
 function renderAll(){renderBoards();renderParticipants();renderPublicChronicles();fillSelectors()}
 function renderPublicChronicles(){
 const rows=[...scores].sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
@@ -737,7 +737,7 @@ $("printMissionQr").addEventListener("click",()=>{const canvas=$("missionQrImage
   .nav-more.has-active>summary{border-color:var(--gold);color:var(--gold2)}
 }
 </style></head><body><h1>${title}</h1><img src="${src}"><p>El Torneo de los Siete Reinos</p><p>${url}</p><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()});
-$("toggleHistory").addEventListener("click",()=>{const panel=$("adminHistory");const opening=panel.classList.contains("hidden");panel.classList.toggle("hidden");$("toggleHistory").textContent=opening?"Ocultar historial de puntuaciones":"Mostrar historial de puntuaciones";if(opening)renderHistory()});
+
 $("printQrs").addEventListener("click",()=>window.print());
 function saveParticipantToken(token){
  if(!token)return;
