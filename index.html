@@ -568,7 +568,7 @@ const SUPABASE_URL = "https://eypzjgszqazuqioarxsh.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_uZSEIyj4kgZSolfuF3LYYQ_IwiEXKZz";
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const HOUSES = {stark:{name:"Casa Stark",sigil:"🐺"},lannister:{name:"Casa Lannister",sigil:"🦁"},baratheon:{name:"Casa Tyrell",sigil:"🌹"},targaryen:{name:"Casa Targaryen",sigil:"🐉"}};
-let participants=[], scores=[], currentUser=null, isAdmin=false, isOwner=false, activeProfile=null, currentParticipantId=null;
+let participants=[], scores=[], currentUser=null, isAdmin=false, isOwner=false, activeProfile=null, currentParticipantId=null, activeSectionId="clasificacion";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const houseName=id=>HOUSES[id]?.name||id||"Sin casa";
@@ -598,7 +598,7 @@ function bindPortraitOpeners(root){root.querySelectorAll("[data-portrait]").forE
 $("closePortraitModal").addEventListener("click",()=>$("portraitModal").classList.add("hidden"));$("portraitModal").addEventListener("click",e=>{if(e.target===$("portraitModal"))$("portraitModal").classList.add("hidden")});
 function fillSelectors(){const opts=participants.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");$("scorePlayer").innerHTML=opts;$("editParticipant").innerHTML=opts;const h=Object.entries(HOUSES).map(([id,v])=>`<option value="${id}">${v.sigil} ${v.name}</option>`).join("");$("scoreHouse").innerHTML=h;$("editHouse").innerHTML=h;syncEditHouse()}
 function syncEditHouse(){const p=participants.find(x=>x.id===$("editParticipant").value);if(p)$("editHouse").value=p.house_id}
-function showSection(id){document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));const moreLink=document.querySelector(".nav-more");if(moreLink)moreLink.classList.toggle("has-active",!!moreLink.querySelector(`[data-tab="${id}"]`));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="quiz"){loadCanManyeQuiz()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
+function showSection(id){activeSectionId=id;document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));const moreLink=document.querySelector(".nav-more");if(moreLink)moreLink.classList.toggle("has-active",!!moreLink.querySelector(`[data-tab="${id}"]`));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="quiz"){loadCanManyeQuiz()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
 $("unlockSecretMission").addEventListener("click",async()=>{const token=currentProfileToken(),word=$("secretMissionWord").value.trim();if(!token){notice("secretMissionMessage","Primero identifícate desde Mi perfil con tu QR o palabra de acceso.",false);return}if(!word){notice("secretMissionMessage","Escribe la palabra secreta.",false);return}const {data,error}=await sb.rpc("accept_secret_mission",{p_profile_token:token,p_secret_word:word});if(error||!data?.ok){notice("secretMissionMessage",error?.message||data?.message||"No se pudo desbloquear la misión.",false);return}notice("secretMissionMessage",data.message+" «"+data.title+"»",true);$("secretMissionWord").value="";await loadMyMissions();showMissionView("mine")});
 $("refreshMissionBoard").addEventListener("click",()=>loadMissionBoard()); function showMissionView(view){document.querySelectorAll("[data-mission-view]").forEach(x=>x.classList.toggle("active",x.dataset.missionView===view));$("missionBoard").classList.toggle("hidden",view!=="board");$("myMissions").classList.toggle("hidden",view!=="mine");$("secretMissionView").classList.toggle("hidden",view!=="secret");if(view==="mine"){loadMyMissions().then(()=>loadMyPublicTasks())}}
 document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{const tab=b.dataset.tab;showSection(tab);const more=b.closest(".nav-more");if(more)more.open=false;if(tab==="perfil"){const token=currentProfileToken();if(token)showProfile(token);else showProfileEntry()}}));
@@ -1248,6 +1248,51 @@ $("adminQuizToggle")?.addEventListener("click",async()=>{
 });
 $("adminQuizRefresh")?.addEventListener("click",loadAdminQuiz);
 
+// Actualización en vivo: Realtime cuando está disponible y sondeo de respaldo.
+let liveRefreshTimer=null, liveRefreshRunning=false, liveRefreshAgain=false, liveRefreshStarted=false;
+function scheduleLiveRefresh(reason="poll"){
+ if(liveRefreshTimer)clearTimeout(liveRefreshTimer);
+ liveRefreshTimer=setTimeout(()=>runLiveRefresh(reason),450);
+}
+async function runLiveRefresh(reason="poll"){
+ if(liveRefreshRunning){liveRefreshAgain=true;return}
+ if(document.hidden)return;
+ liveRefreshRunning=true;
+ try{
+  // Los puntos y perfiles se refrescan en cualquier sección para mantener la clasificación al día.
+  await loadData();
+  if(activeSectionId==="misiones"){
+   const boardVisible=!$("missionBoard")?.classList.contains("hidden");
+   const mineVisible=!$("myMissions")?.classList.contains("hidden");
+   if(boardVisible)await loadMissionBoard();
+   if(mineVisible){await loadMyMissions();await loadMyPublicTasks()}
+  }
+  if(isAdmin && activeSectionId==="admin"){
+   await Promise.all([loadPendingMissions(),loadAdminPublicTasks()]);
+  }
+ }catch(err){console.warn("No se pudo completar la actualización automática:",err)}
+ finally{
+  liveRefreshRunning=false;
+  if(liveRefreshAgain){liveRefreshAgain=false;scheduleLiveRefresh("queued")}
+ }
+}
+function startLiveUpdates(){
+ if(liveRefreshStarted)return;
+ liveRefreshStarted=true;
+ const channel=sb.channel("tournament-live-refresh")
+  .on("postgres_changes",{event:"*",schema:"public",table:"score_entries"},()=>scheduleLiveRefresh("scores"))
+  .on("postgres_changes",{event:"*",schema:"public",table:"participants"},()=>scheduleLiveRefresh("participants"))
+  .on("postgres_changes",{event:"*",schema:"public",table:"mission_claims"},()=>scheduleLiveRefresh("missions"))
+  .on("postgres_changes",{event:"*",schema:"public",table:"missions"},()=>scheduleLiveRefresh("missions"))
+  .on("postgres_changes",{event:"*",schema:"public",table:"public_mission_signups"},()=>scheduleLiveRefresh("public-tasks"))
+  .on("postgres_changes",{event:"*",schema:"public",table:"public_missions"},()=>scheduleLiveRefresh("public-tasks"))
+  .subscribe(status=>{if(status==="CHANNEL_ERROR"||status==="TIMED_OUT")console.warn("Realtime no disponible; seguirá funcionando la actualización periódica.")});
+ // Respaldo por si Realtime no está habilitado en alguna tabla o se pierde la conexión.
+ setInterval(()=>{if(!document.hidden)scheduleLiveRefresh("poll")},30000);
+ document.addEventListener("visibilitychange",()=>{if(!document.hidden)scheduleLiveRefresh("visible")});
+ window.addEventListener("online",()=>scheduleLiveRefresh("online"));
+}
+
 async function init(){
  await checkAdmin();
  const params=new URLSearchParams(location.search);
@@ -1256,6 +1301,7 @@ async function init(){
  await loadData();
  if(token){saveParticipantToken(token);if(params.has("profile")){await showProfile(token);showSection("perfil");const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete("profile");history.replaceState({},"",cleanUrl.toString())}}
  await loadMissionBoard();
+ startLiveUpdates();
  const missionToken=params.get("mission");
  if(missionToken){await handleMissionQr(missionToken)}
  sb.auth.onAuthStateChange(()=>setTimeout(checkAdmin,0));
