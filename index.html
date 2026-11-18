@@ -21,7 +21,7 @@ input,textarea,select{width:100%;background:#100f0e;color:var(--text);border:1px
 table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #51433177}th{color:var(--gold);font-weight:600}.scroll{overflow:auto}.hidden{display:none!important}.qrgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.qrbox{background:#f7f3e9;color:#1a1712;padding:12px;text-align:center;border-radius:8px}.qrbox canvas,.qrbox img{margin:8px auto;display:block}.qrbox strong{font-family:Cinzel,serif}.footer{text-align:center;color:#756b5b;font-size:11px;margin-top:45px;letter-spacing:.08em}
 
 .hero{display:none}#clasificacion .hero{display:block}
-.nav-review-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#dc2626;box-shadow:0 0 0 2px #211d18;margin-left:7px;vertical-align:middle}.mission-admin-tabs{margin-top:12px;padding:10px;background:#151310;border:1px solid var(--line);border-radius:9px}.mission-admin-tabs .tab{font-size:12px}.badge-status{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:50%;font-size:11px;font-weight:800;color:#fff}
+.nav-notice-dot{display:inline-block;width:8px;height:8px;border-radius:50%;box-shadow:0 0 0 2px #211d18;margin-left:6px;vertical-align:middle}.nav-notice-dot.green{background:#16a34a}.nav-notice-dot.red{background:#dc2626}.notice-count{font-size:11px;font-weight:800;margin-left:4px}.notice-count.green{color:#4ade80}.notice-count.red{color:#f87171}.mission-admin-tabs{margin-top:12px;padding:10px;background:#151310;border:1px solid var(--line);border-radius:9px}.mission-admin-tabs .tab{font-size:12px}.badge-status{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;border-radius:50%;font-size:11px;font-weight:800;color:#fff}
 .badge-published{background:#58765b}.badge-draft{background:#8e3e36}
 .admin-mission-card{background:linear-gradient(145deg,#211e1a,#171513);border:1px solid var(--line);border-radius:9px;padding:13px;margin:10px 0}
 .admin-mission-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
@@ -143,7 +143,7 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 </head>
 <body>
 <header><div class="head"><div><div class="brand">EL TORNEO DE LOS SIETE REINOS</div><div class="sub">CRÓNICAS · HONOR · LEALTAD</div></div>
-<nav class="no-print" aria-label="Navegación principal"><button class="tab active nav-primary" data-tab="clasificacion">Clasificación</button><button class="tab nav-primary" data-tab="misiones">Misiones<span id="missionReviewDot" class="nav-review-dot hidden" aria-label="Hay pruebas pendientes de revisión" title="Hay pruebas pendientes de revisión"></span></button><button class="tab nav-primary" data-tab="agenda">Agenda</button><button class="tab nav-primary" data-tab="album">Álbum</button><details class="nav-more"><summary>Más <span aria-hidden="true">⌄</span></summary><div class="nav-more-menu"><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="eltorneo">El torneo</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="quiz">Quiz</button><button class="tab" data-tab="admin">Admin</button><button class="tab nav-extra" data-tab="participantes">Participantes</button><button class="tab nav-extra" data-tab="guerras">Hazañas</button></div></details></nav></div></header>
+<nav class="no-print" aria-label="Navegación principal"><button class="tab active nav-primary" data-tab="clasificacion">Clasificación</button><button class="tab nav-primary" data-tab="misiones">Misiones<span id="missionAvailableDot" class="nav-notice-dot green hidden" aria-label="Hay misiones públicas disponibles" title="Hay misiones públicas disponibles"></span><span id="missionReviewDot" class="nav-notice-dot red hidden" aria-label="Hay pruebas pendientes de revisión" title="Hay pruebas pendientes de revisión"></span></button><button class="tab nav-primary" data-tab="agenda">Agenda</button><button class="tab nav-primary" data-tab="album">Álbum</button><details class="nav-more"><summary>Más <span aria-hidden="true">⌄</span></summary><div class="nav-more-menu"><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="eltorneo">El torneo</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="quiz">Quiz</button><button class="tab" data-tab="admin">Admin</button><button class="tab nav-extra" data-tab="participantes">Participantes</button><button class="tab nav-extra" data-tab="guerras">Hazañas</button></div></details></nav></div></header>
 <main>
 <section id="clasificacion" class="section active">
 <div class="hero"><div class="eyebrow">Las casas han sido convocadas</div><h1>Que comience el torneo</h1><p>Quince nombres. Cuatro casas. Dos coronas por conquistar.</p></div>
@@ -492,7 +492,7 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 </section>
 
 <section id="guerras" class="section"><h2>Las guerras de Poniente</h2><p class="muted">Cada hazaña queda escrita en las crónicas. Consulta quién ha ganado puntos, cuántos y cuándo.</p><div id="publicChronicles"></div></section>
-<section id="misiones" class="section"><h2>Misiones de Poniente</h2><p class="muted">Acepta desafíos desde el tablón o descubre los secretos escondidos por la masía.</p><div class="tabs mission-tabs"><button class="tab active" data-mission-view="board">Tablón de Poniente</button><button class="tab" data-mission-view="mine">Mis misiones</button><button class="tab" data-mission-view="secret">Misiones secretas</button><button class="small" id="refreshMissionBoard" type="button">↻ Actualizar misiones</button></div><div id="missionAdminShortcuts" class="hidden"><div class="tabs mission-admin-tabs"><button class="tab" data-mission-admin-view="reviews">Revisiones pendientes <span id="missionReviewCount"></span></button><button class="tab" data-mission-admin-view="signups">Inscripciones a tareas</button></div><div id="missionAdminReviews" class="hidden" style="margin:12px 0"><div id="missionPendingList"></div></div><div id="missionAdminSignups" class="hidden" style="margin:12px 0"><div id="missionSignupList"></div></div></div><div id="missionBoard" class="grid"></div><div id="myMissions" class="hidden" style="margin-top:16px"></div><div id="secretMissionView" class="hidden" style="margin-top:16px"><div class="card secret-entry"><h3>Descubre un secreto de Poniente</h3><p class="muted">Algunas misiones solo se desbloquean con una palabra que encontrarás durante el torneo.</p><label>Palabra secreta</label><input id="secretMissionWord" maxlength="80" autocomplete="off" placeholder="Escribe aquí la palabra"><button class="primary" id="unlockSecretMission">Desbloquear misión</button><div id="secretMissionMessage"></div></div></div><div id="missionMessage"></div></section>
+<section id="misiones" class="section"><h2>Misiones de Poniente</h2><p class="muted">Acepta desafíos desde el tablón o descubre los secretos escondidos por la masía.</p><div class="tabs mission-tabs"><button class="tab active" data-mission-view="board">Tablón de Poniente <span id="missionAvailableCount" class="notice-count green"></span></button><button class="tab" data-mission-view="mine">Mis misiones</button><button class="tab" data-mission-view="secret">Misiones secretas</button><button class="small" id="refreshMissionBoard" type="button">↻ Actualizar misiones</button></div><div id="missionAdminShortcuts" class="hidden"><div class="tabs mission-admin-tabs"><button class="tab" data-mission-admin-view="reviews">Revisiones pendientes <span id="missionReviewCount" class="notice-count red"></span></button><button class="tab" data-mission-admin-view="signups">Inscripciones a tareas</button></div><div id="missionAdminReviews" class="hidden" style="margin:12px 0"><div id="missionPendingList"></div></div><div id="missionAdminSignups" class="hidden" style="margin:12px 0"><div id="missionSignupList"></div></div></div><div id="missionBoard" class="grid"></div><div id="myMissions" class="hidden" style="margin-top:16px"></div><div id="secretMissionView" class="hidden" style="margin-top:16px"><div class="card secret-entry"><h3>Descubre un secreto de Poniente</h3><p class="muted">Algunas misiones solo se desbloquean con una palabra que encontrarás durante el torneo.</p><label>Palabra secreta</label><input id="secretMissionWord" maxlength="80" autocomplete="off" placeholder="Escribe aquí la palabra"><button class="primary" id="unlockSecretMission">Desbloquear misión</button><div id="secretMissionMessage"></div></div></div><div id="missionMessage"></div></section>
 <section id="admin" class="section"><div id="adminView" class="card"><h2>Administración del torneo</h2><p class="muted">Acceso reservado a la organización.</p>
 <div id="loginBox"><label>Correo de administración</label><input id="adminEmail" type="email" placeholder="Correo de administración"><button class="primary" id="sendLogin">Enviar enlace de acceso</button><div id="loginMsg" class="notice">Recibirás un enlace de acceso por correo. No compartas ese enlace.</div></div>
 <div id="adminPanel" class="hidden">
@@ -573,7 +573,10 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const houseName=id=>HOUSES[id]?.name||id||"Sin casa";
 const houseAccent=id=>HOUSES[id]?.color||"";
-function notice(el,msg,good=true){$(el).innerHTML=`<div class="notice ${good?'good':'bad'}">${esc(msg)}</div>`}
+const transientNoticeTimers=new Map();
+function clearTransientNotices(){for(const [id,timer] of transientNoticeTimers){clearTimeout(timer);const box=$(id);if(box)box.innerHTML="";}transientNoticeTimers.clear()}
+function clearTransientNotice(id){const timer=transientNoticeTimers.get(id);if(timer)clearTimeout(timer);transientNoticeTimers.delete(id);const box=$(id);if(box)box.innerHTML=""}
+function notice(el,msg,good=true){const box=$(el);if(!box)return;const id=typeof el==="string"?el:box.id;if(id){const old=transientNoticeTimers.get(id);if(old)clearTimeout(old)}const html=`<div class="notice ${good?'good':'bad'}">${esc(msg)}</div>`;box.innerHTML=html;if(id){const timer=setTimeout(()=>{if(box.innerHTML===html)box.innerHTML="";transientNoticeTimers.delete(id)},6500);transientNoticeTimers.set(id,timer)}else{setTimeout(()=>{if(box.innerHTML===html)box.innerHTML=""},6500)}}
 function totals(){const out={};participants.forEach(p=>out[p.id]=0);scores.forEach(s=>{if(s.kind==="individual"&&s.player_id in out)out[s.player_id]+=Number(s.points);if(s.kind==="collective"&&Array.isArray(s.member_ids))s.member_ids.forEach(id=>{if(id in out)out[id]+=Number(s.points)})});return out}
 function houseTotals(){const out={stark:0,lannister:0,baratheon:0,targaryen:0};scores.filter(s=>s.kind==="collective").forEach(s=>{if(s.house_id in out)out[s.house_id]+=Number(s.points)});return out}
 async function loadData(){const [p,s]=await Promise.all([sb.from("participants").select("id,name,house_id,joined_day,nickname,presentation,motto,portrait_path").order("name"),sb.from("score_entries").select("*").order("created_at",{ascending:false})]);if(p.error)throw p.error;if(s.error)throw s.error;participants=p.data||[];scores=s.data||[];renderAll();if(isAdmin&&$("historyTable"))renderHistory()}
@@ -598,11 +601,11 @@ function bindPortraitOpeners(root){root.querySelectorAll("[data-portrait]").forE
 $("closePortraitModal").addEventListener("click",()=>$("portraitModal").classList.add("hidden"));$("portraitModal").addEventListener("click",e=>{if(e.target===$("portraitModal"))$("portraitModal").classList.add("hidden")});
 function fillSelectors(){const opts=participants.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join("");$("scorePlayer").innerHTML=opts;$("editParticipant").innerHTML=opts;const h=Object.entries(HOUSES).map(([id,v])=>`<option value="${id}">${v.sigil} ${v.name}</option>`).join("");$("scoreHouse").innerHTML=h;$("editHouse").innerHTML=h;syncEditHouse()}
 function syncEditHouse(){const p=participants.find(x=>x.id===$("editParticipant").value);if(p)$("editHouse").value=p.house_id}
-function showSection(id){activeSectionId=id;document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));const moreLink=document.querySelector(".nav-more");if(moreLink)moreLink.classList.toggle("has-active",!!moreLink.querySelector(`[data-tab="${id}"]`));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="quiz"){loadCanManyeQuiz()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
+function showSection(id){clearTransientNotices();activeSectionId=id;document.querySelectorAll("main>.section").forEach(x=>x.classList.toggle("active",x.id===id));document.querySelectorAll("nav .tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===id));const moreLink=document.querySelector(".nav-more");if(moreLink)moreLink.classList.toggle("has-active",!!moreLink.querySelector(`[data-tab="${id}"]`));if(id==="misiones")showMissionView("board");if(id==="premios"){startAwardsCountdown();loadAwardsData()}if(id==="quiz"){loadCanManyeQuiz()}if(id==="album"){activeAlbumDay="todos";document.querySelectorAll("[data-album-day]").forEach(b=>b.classList.toggle("active",b.dataset.albumDay==="todos"));loadAlbum()}}
 $("unlockSecretMission").addEventListener("click",async()=>{const token=currentProfileToken(),word=$("secretMissionWord").value.trim();if(!token){notice("secretMissionMessage","Primero identifícate desde Mi perfil con tu QR o palabra de acceso.",false);return}if(!word){notice("secretMissionMessage","Escribe la palabra secreta.",false);return}const {data,error}=await sb.rpc("accept_secret_mission",{p_profile_token:token,p_secret_word:word});if(error||!data?.ok){notice("secretMissionMessage",error?.message||data?.message||"No se pudo desbloquear la misión.",false);return}notice("secretMissionMessage",data.message+" «"+data.title+"»",true);$("secretMissionWord").value="";await loadMyMissions();showMissionView("mine")});
 $("refreshMissionBoard").addEventListener("click",()=>loadMissionBoard());
-function showMissionView(view){document.querySelectorAll("[data-mission-view]").forEach(x=>x.classList.toggle("active",x.dataset.missionView===view));$("missionBoard").classList.toggle("hidden",view!=="board");$("myMissions").classList.toggle("hidden",view!=="mine");$("secretMissionView").classList.toggle("hidden",view!=="secret");$("missionAdminReviews")?.classList.add("hidden");$("missionAdminSignups")?.classList.add("hidden");document.querySelectorAll("[data-mission-admin-view]").forEach(x=>x.classList.remove("active"));if(view==="mine"){loadMyMissions().then(()=>loadMyPublicTasks())}}
-document.querySelectorAll("[data-mission-admin-view]").forEach(b=>b.addEventListener("click",()=>{if(!isAdmin)return;const view=b.dataset.missionAdminView;document.querySelectorAll("[data-mission-admin-view]").forEach(x=>x.classList.toggle("active",x===b));$("missionBoard").classList.add("hidden");$("myMissions").classList.add("hidden");$("secretMissionView").classList.add("hidden");$("missionAdminReviews").classList.toggle("hidden",view!=="reviews");$("missionAdminSignups").classList.toggle("hidden",view!=="signups");if(view==="reviews")loadPendingMissions("missionPendingList");if(view==="signups")loadMissionAdminSignups()}));
+function showMissionView(view){clearTransientNotice("missionMessage");clearTransientNotice("secretMissionMessage");document.querySelectorAll("[data-mission-view]").forEach(x=>x.classList.toggle("active",x.dataset.missionView===view));$("missionBoard").classList.toggle("hidden",view!=="board");$("myMissions").classList.toggle("hidden",view!=="mine");$("secretMissionView").classList.toggle("hidden",view!=="secret");$("missionAdminReviews")?.classList.add("hidden");$("missionAdminSignups")?.classList.add("hidden");document.querySelectorAll("[data-mission-admin-view]").forEach(x=>x.classList.remove("active"));if(view==="mine"){loadMyMissions().then(()=>loadMyPublicTasks())}}
+document.querySelectorAll("[data-mission-admin-view]").forEach(b=>b.addEventListener("click",()=>{if(!isAdmin)return;clearTransientNotice("missionMessage");clearTransientNotice("secretMissionMessage");const view=b.dataset.missionAdminView;document.querySelectorAll("[data-mission-admin-view]").forEach(x=>x.classList.toggle("active",x===b));$("missionBoard").classList.add("hidden");$("myMissions").classList.add("hidden");$("secretMissionView").classList.add("hidden");$("missionAdminReviews").classList.toggle("hidden",view!=="reviews");$("missionAdminSignups").classList.toggle("hidden",view!=="signups");if(view==="reviews")loadPendingMissions("missionPendingList");if(view==="signups")loadMissionAdminSignups()}));
 document.querySelectorAll("nav [data-tab]").forEach(b=>b.addEventListener("click",()=>{const tab=b.dataset.tab;showSection(tab);const more=b.closest(".nav-more");if(more)more.open=false;if(tab==="perfil"){const token=currentProfileToken();if(token)showProfile(token);else showProfileEntry()}}));
 document.querySelectorAll("[data-open-tab]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();showSection(a.dataset.openTab);window.scrollTo({top:0,behavior:"smooth"})}));
 document.querySelectorAll("[data-mission-view]").forEach(b=>b.addEventListener("click",()=>showMissionView(b.dataset.missionView)));
@@ -819,21 +822,60 @@ $("cancelMissionEdit").addEventListener("click",()=>{clearMissionForm();$("missi
 async function releaseMissionSlots(id){if(!confirm("¿Liberar las plazas ocupadas de esta misión? Se conservarán las participaciones, pruebas y puntos anteriores."))return;const {data,error}=await sb.rpc("admin_release_mission_slots",{p_mission_id:id});if(error||!data?.ok){notice("missionAdminMsg",error?.message||data?.message||"No se pudieron liberar las plazas.",false);return}notice("missionAdminMsg",data.message||"Plazas liberadas.");await loadAdminMissions();await loadMissionBoard()}
 
 async function deleteMission(id,title){if(!isAdmin)return;const confirmed=confirm(`¿Borrar definitivamente la misión «${title}»?\n\nTambién se eliminarán sus aceptaciones, pruebas y los puntos que haya concedido. Esta acción no se puede deshacer.`);if(!confirmed)return;const {data,error}=await sb.rpc("admin_delete_mission",{p_mission_id:id});if(error||!data?.ok){alert(error?.message||data?.message||"No se pudo borrar la misión.");return}notice("missionAdminMsg",data.message||"Misión eliminada correctamente.");await loadAdminMissions();await loadMissionBoard();await loadData()}
-async function loadPendingMissions(boxId="pendingMissionList"){
- const box=$(boxId);if(!box||!isAdmin)return;
- const {data,error}=await sb.rpc("admin_get_pending_missions");
- if(error||!data?.ok){box.innerHTML=`<div class="notice bad">${esc(error?.message||data?.message||"No se pudo cargar la bandeja")}</div>`;return}
- const rows=data.pending_missions||[];
+// Una sola consulta compartida evita que respuestas simultáneas se pisen entre sí.
+let pendingMissionRequest=null;
+async function getPendingMissionSnapshot(){
+ if(!pendingMissionRequest){
+  pendingMissionRequest=(async()=>{
+   const {data,error}=await sb.rpc("admin_get_pending_missions");
+   if(error||!data?.ok)return {error:error?.message||data?.message||"No se pudo cargar la bandeja",rows:null};
+   return {error:null,rows:data.pending_missions||[]};
+  })().finally(()=>{pendingMissionRequest=null});
+ }
+ return pendingMissionRequest;
+}
+function renderPendingMissionBox(box,rows){
+ if(!box)return;
  box.innerHTML=rows.length?rows.map(m=>`<article class="card" style="margin:12px 0"><div class="tag">${missionStatusLabel(m.status)} · ${m.points} puntos</div><h3>${esc(m.mission_title)} — ${esc(m.participant_name)}</h3><p>${esc(m.submission_text||"Sin texto adjunto")}</p>${m.evidence_path?`<button class="small" data-view-evidence="${esc(m.evidence_path)}">Ver fotografía</button>`:""}<label>Nota de revisión</label><input id="review-note-${m.claim_id}" placeholder="Motivo si rechazas"><div class="formactions"><button class="primary small" data-approve="${m.claim_id}">Aprobar y conceder puntos</button><button class="danger small" data-reject="${m.claim_id}">Rechazar</button></div></article>`).join(""):'<div class="notice good">No hay pruebas pendientes de revisión.</div>';
- box.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>reviewMission(b.dataset.approve,true));box.querySelectorAll("[data-reject]").forEach(b=>b.onclick=()=>reviewMission(b.dataset.reject,false));
+ box.querySelectorAll("[data-approve]").forEach(b=>b.onclick=()=>reviewMission(b.dataset.approve,true));
+ box.querySelectorAll("[data-reject]").forEach(b=>b.onclick=()=>reviewMission(b.dataset.reject,false));
  box.querySelectorAll("[data-view-evidence]").forEach(b=>b.onclick=async()=>{const {data,error}=await sb.storage.from("mission-evidence").createSignedUrl(b.dataset.viewEvidence,300);if(error){alert(error.message);return}window.open(data.signedUrl,"_blank","noopener")});
- if(boxId==="pendingMissionList")await refreshMissionReviewIndicator(rows.length);else await refreshMissionReviewIndicator(rows.length);
+}
+async function loadPendingMissions(boxId="pendingMissionList"){
+ if(!isAdmin)return;
+ const result=await getPendingMissionSnapshot();
+ if(result.error){
+  // Un fallo transitorio no debe borrar el último listado ni apagar el aviso.
+  const box=$(boxId);if(box&&!box.innerHTML.trim())box.innerHTML=`<div class="notice bad">${esc(result.error)}</div>`;
+  return;
+ }
+ // Las dos bandejas reciben exactamente la misma instantánea del servidor.
+ renderPendingMissionBox($("pendingMissionList"),result.rows);
+ renderPendingMissionBox($("missionPendingList"),result.rows);
+ refreshMissionReviewIndicator(result.rows.length);
 }
 async function refreshMissionReviewIndicator(knownCount){
  if(!isAdmin)return;
  let count=Number.isFinite(knownCount)?knownCount:null;
- if(count===null){const {data,error}=await sb.rpc("admin_get_pending_missions");if(error||!data?.ok)return;count=(data.pending_missions||[]).length}
- const dot=$("missionReviewDot"),label=$("missionReviewCount");if(dot)dot.classList.toggle("hidden",count===0);if(label)label.textContent=count?`(${count})`:"";
+ if(count===null){const result=await getPendingMissionSnapshot();if(result.error)return;count=result.rows.length}
+ const dot=$("missionReviewDot"),label=$("missionReviewCount");
+ if(dot)dot.classList.toggle("hidden",count===0);
+ if(label)label.textContent=count?`(${count})`:"";
+}
+async function refreshMissionAvailabilityIndicator(knownCount){
+ const token=currentProfileToken();
+ let count=Number.isFinite(knownCount)?knownCount:null;
+ if(count===null){
+  if(!token)count=0;
+  else{
+   const {data,error}=await sb.rpc("get_public_tasks_board",{p_profile_token:token});
+   if(error||!data?.ok)return; // No apagar el aviso ante un fallo temporal.
+   count=(data.available||[]).filter(m=>Number(m.available_slots??1)>0).length;
+  }
+ }
+ const dot=$("missionAvailableDot"),label=$("missionAvailableCount");
+ if(dot)dot.classList.toggle("hidden",count===0);
+ if(label)label.textContent=count?`(${count})`:"";
 }
 async function loadMissionAdminSignups(){
  const box=$("missionSignupList");if(!box||!isAdmin)return;
@@ -843,8 +885,8 @@ async function loadMissionAdminSignups(){
  const rows=data.missions||[];
  box.innerHTML=rows.map(m=>`<article class="card" style="margin:10px 0"><div class="tag">${m.is_profile_setup?"MISIÓN DE PERFIL":esc(publicDayNames[m.day]||m.day)} · ${(m.signups||[]).length}/${m.max_participants} plazas</div><h3>${esc(m.title)}</h3>${(m.signups||[]).length?`<div class="scroll"><table><thead><tr><th>Participante</th><th>Estado</th></tr></thead><tbody>${m.signups.map(x=>`<tr><td>${esc(x.participant_name)}</td><td>${x.confirmation_status==="approved"?"Validada":x.confirmation_status==="rejected"?"Rechazada":x.confirmation_status==="confirmed"?"Pendiente de validación":"Apuntada"}</td></tr>`).join("")}</tbody></table></div>`:'<p class="muted">Todavía no hay personas inscritas.</p>'}</article>`).join("")||'<p class="muted">No hay tareas publicadas.</p>';
 }
-async function reviewMission(id,approve){const note=$("review-note-"+id)?.value||null;const {data,error}=await sb.rpc("admin_review_mission",{p_claim_id:id,p_approve:approve,p_note:note});if(error||!data?.ok){alert(error?.message||data?.message||"No se pudo revisar.");return}alert(data.message);await loadPendingMissions();await loadPendingMissions("missionPendingList");await loadData()}
-async function handleMissionQr(token){const profile=currentProfileToken();if(!profile){showSection("perfil");$("profileView").innerHTML='<h2>Identifícate</h2><p class="muted">Primero abre tu QR personal en este dispositivo. Después vuelve a escanear el QR de la misión.</p>';return}const {data,error}=await sb.rpc("get_qr_mission_preview",{p_profile_token:profile,p_mission_qr_token:token});if(error||!data?.ok){notice("missionMessage",error?.message||data?.message||"No se pudo abrir la misión.",false);showSection("misiones");return}showSection("misiones");if(data.already_completed||data.already_accepted){notice("missionMessage",data.message);return}const yes=confirm(`${data.intro||"Has descubierto una misión secreta."}\n\nRecompensa: ${data.points} puntos.\n\n¿Quieres aceptarla?`);if(!yes)return;const {data:accepted,error:acceptError}=await sb.rpc("accept_qr_mission",{p_profile_token:profile,p_mission_qr_token:token});if(acceptError||!accepted?.ok){notice("missionMessage",acceptError?.message||accepted?.message||"No se pudo aceptar.",false);return}$("missionMessage").innerHTML="";showMissionView("mine");await loadMyMissions();await loadMyPublicTasks()}
+async function reviewMission(id,approve){const note=$("review-note-"+id)?.value||null;const {data,error}=await sb.rpc("admin_review_mission",{p_claim_id:id,p_approve:approve,p_note:note});if(error||!data?.ok){alert(error?.message||data?.message||"No se pudo revisar.");return}alert(data.message);await loadPendingMissions();await loadData()}
+async function handleMissionQr(token){const profile=currentProfileToken();if(!profile){showSection("perfil");$("profileView").innerHTML='<h2>Identifícate</h2><p class="muted">Primero abre tu QR personal en este dispositivo. Después vuelve a escanear el QR de la misión.</p>';return}const {data,error}=await sb.rpc("get_qr_mission_preview",{p_profile_token:profile,p_mission_qr_token:token});if(error||!data?.ok){notice("missionMessage",error?.message||data?.message||"No se pudo abrir la misión.",false);showSection("misiones");return}showSection("misiones");if(data.already_completed||data.already_accepted){notice("missionMessage",data.message,true);return}const yes=confirm(`${data.intro||"Has descubierto una misión secreta."}\n\nRecompensa: ${data.points} puntos.\n\n¿Quieres aceptarla?`);if(!yes)return;const {data:accepted,error:acceptError}=await sb.rpc("accept_qr_mission",{p_profile_token:profile,p_mission_qr_token:token});if(acceptError||!accepted?.ok){notice("missionMessage",acceptError?.message||accepted?.message||"No se pudo aceptar.",false);return}$("missionMessage").innerHTML="";showMissionView("mine");await loadMyMissions();await loadMyPublicTasks()}
 
 
 
@@ -1134,7 +1176,7 @@ async function loadMissionBoard(options={}){
  if(publicResult.error||!publicResult.data?.ok){box.innerHTML=`<div class="notice bad">No se pudieron cargar las tareas públicas: ${esc(publicResult.error?.message||publicResult.data?.message||"Error desconocido")}. Comprueba que has ejecutado el SQL nuevo.</div>`;return}
  const d=publicResult.data,profile=d.profile_setup||{};
  const profileMission={id:"profile-setup",mission_number:0,title:"Configurar el perfil",description:"Completa los tres campos de tu identidad en Poniente: apodo o título, lema personal y presentación. Esta misión es individual y obligatoria para todos los participantes.",day:"permanent",event_label:"Mi perfil",points:Number(profile.points||5),is_profile_setup:true,completed:profile.completed===true};
- const completed=d.completed||[],completedIds=new Set(completed.map(x=>x.id));const available=(d.available||[]).filter(x=>!completedIds.has(x.id)),upcoming=(d.upcoming||[]).filter(x=>!completedIds.has(x.id));
+ const completed=d.completed||[],completedIds=new Set(completed.map(x=>x.id));const available=(d.available||[]).filter(x=>!completedIds.has(x.id)),upcoming=(d.upcoming||[]).filter(x=>!completedIds.has(x.id));refreshMissionAvailabilityIndicator(available.filter(m=>!m.my_status&&Number(m.available_slots??1)>0).length);
  let html='';
  const oldMissions=await addMissionImages(oldResult.data?.missions||[]);
  if(oldResult.error){html+=`<div class="notice bad" style="grid-column:1/-1">No se han podido cargar los desafíos anteriores: ${esc(oldResult.error.message)}</div>`}
@@ -1277,7 +1319,7 @@ $("adminQuizRefresh")?.addEventListener("click",loadAdminQuiz);
 // Actualización automática limitada a Clasificación y al Tablón de Poniente.
 let liveRefreshTimer=null, liveRefreshRunning=false, liveRefreshAgain=false, liveRefreshStarted=false;
 function scheduleLiveRefresh(reason="poll"){
- if(isAdmin && reason==="poll")refreshMissionReviewIndicator();
+ if(reason==="poll"||reason==="public-tasks"||reason==="missions"||reason==="visible"||reason==="online"){refreshMissionAvailabilityIndicator();if(isAdmin)refreshMissionReviewIndicator();}
  // El indicador se consulta para administradoras aunque estén en otra sección.
  if(document.hidden || !["clasificacion","misiones"].includes(activeSectionId))return;
  if(activeSectionId==="misiones" && $("missionBoard")?.classList.contains("hidden") && !(isAdmin && (!$("missionAdminReviews")?.classList.contains("hidden") || !$("missionAdminSignups")?.classList.contains("hidden"))))return;
@@ -1319,10 +1361,10 @@ function startLiveUpdates(){
  sb.channel("tournament-live-refresh")
   .on("postgres_changes",{event:"*",schema:"public",table:"score_entries"},()=>scheduleLiveRefresh("scores"))
   .on("postgres_changes",{event:"*",schema:"public",table:"participants"},()=>scheduleLiveRefresh("participants"))
-  .on("postgres_changes",{event:"*",schema:"public",table:"mission_claims"},()=>{if(isAdmin)refreshMissionReviewIndicator();scheduleLiveRefresh("missions")})
+  .on("postgres_changes",{event:"*",schema:"public",table:"mission_claims"},()=>{if(isAdmin)refreshMissionReviewIndicator();refreshMissionAvailabilityIndicator();scheduleLiveRefresh("missions")})
   .on("postgres_changes",{event:"*",schema:"public",table:"missions"},()=>scheduleLiveRefresh("missions"))
-  .on("postgres_changes",{event:"*",schema:"public",table:"public_mission_signups"},()=>scheduleLiveRefresh("public-tasks"))
-  .on("postgres_changes",{event:"*",schema:"public",table:"public_missions"},()=>scheduleLiveRefresh("public-tasks"))
+  .on("postgres_changes",{event:"*",schema:"public",table:"public_mission_signups"},()=>{refreshMissionAvailabilityIndicator();scheduleLiveRefresh("public-tasks")})
+  .on("postgres_changes",{event:"*",schema:"public",table:"public_missions"},()=>{refreshMissionAvailabilityIndicator();scheduleLiveRefresh("public-tasks")})
   .subscribe(status=>{if(status==="CHANNEL_ERROR"||status==="TIMED_OUT")console.warn("Realtime no disponible; seguirá funcionando la actualización periódica.")});
  setInterval(()=>scheduleLiveRefresh("poll"),30000);
  document.addEventListener("visibilitychange",()=>{if(!document.hidden)scheduleLiveRefresh("visible")});
@@ -1337,6 +1379,7 @@ async function init(){
  await loadData();
  if(token){saveParticipantToken(token);if(params.has("profile")){await showProfile(token);showSection("perfil");const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete("profile");history.replaceState({},"",cleanUrl.toString())}}
  await loadMissionBoard();
+ await refreshMissionAvailabilityIndicator();
  startLiveUpdates();
  const missionToken=params.get("mission");
  if(missionToken){await handleMissionQr(missionToken)}
