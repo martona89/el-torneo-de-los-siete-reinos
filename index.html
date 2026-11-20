@@ -890,27 +890,45 @@ async function loadMissionAdminMissionSignups(){
  const box=$("missionAdminMissionSignupList");if(!box||!isAdmin)return;
  box.innerHTML='<div class="notice">Consultando las inscripciones a misiones…</div>';
  const [claimsResult,missionsResult,peopleResult]=await Promise.all([
-  sb.from("mission_claims").select("id,mission_id,participant_id,house_id,member_ids,status,accepted_at,submitted_at,completed_at").order("accepted_at",{ascending:false}),
-  sb.from("missions").select("id,mission_number,title,target_type,access_type,status"),
+  sb.from("mission_claims").select("id,mission_id,participant_id,house_id,member_ids,status,accepted_at,submitted_at,completed_at,evidence_path,submission_text,review_note,witness_response").order("accepted_at",{ascending:false}),
+  sb.from("missions").select("id,mission_number,title,target_type,access_type,status,validation_type,proof_mode,points"),
   sb.from("participants").select("id,name,house_id")
  ]);
  const err=claimsResult.error||missionsResult.error||peopleResult.error;
  if(err){box.innerHTML=`<div class="notice bad">${esc(err.message||"No se pudieron consultar las inscripciones a misiones.")}</div>`;return}
  const missionsById=Object.fromEntries((missionsResult.data||[]).map(m=>[String(m.id),m]));
  const peopleById=Object.fromEntries((peopleResult.data||[]).map(p=>[String(p.id),p]));
- const rows=(claimsResult.data||[]).filter(c=>missionsById[String(c.mission_id)]);
- if(!rows.length){box.innerHTML='<p class="muted">Todavía no hay participantes inscritos en misiones.</p>';return}
+ const grouped=new Map();
+ (claimsResult.data||[]).forEach(c=>{
+  const m=missionsById[String(c.mission_id)];if(!m)return;
+  if(!grouped.has(String(m.id)))grouped.set(String(m.id),{mission:m,claims:[]});
+  grouped.get(String(m.id)).claims.push(c);
+ });
+ if(!grouped.size){box.innerHTML='<p class="muted">Todavía no hay participantes inscritos en misiones.</p>';return}
  const statusNames={accepted:"Aceptada",submitted:"Prueba enviada",witness_pending:"Pendiente del testigo",needs_review:"Pendiente de revisión",completed:"Completada",failed:"Intento fallido",rejected:"Rechazada",cancelled:"Cancelada"};
- box.innerHTML=rows.map(c=>{
-  const m=missionsById[String(c.mission_id)];
-  const isHouse=m.target_type==="house";
-  const ids=isHouse?(c.member_ids||[]):[c.participant_id];
-  const names=ids.map(id=>peopleById[String(id)]?.name).filter(Boolean);
-  const label=isHouse?`Casa ${esc((typeof houseName==="function"&&c.house_id)?houseName(c.house_id):c.house_id||"")}`:esc(peopleById[String(c.participant_id)]?.name||"Participante desconocido");
-  const extra=isHouse&&names.length?`<p class="muted">Integrantes: ${names.map(esc).join(", ")}</p>`:"";
-  const when=c.accepted_at?new Date(c.accepted_at).toLocaleString("es-ES"):"";
-  return `<article class="card" style="margin:10px 0"><div class="tag">MISIÓN ${m.mission_number??"—"} · ${esc(m.access_type==="board"?"Tablón":m.access_type==="secret"?"Palabra secreta":"QR secreto")} · ${esc(statusNames[c.status]||c.status||"Sin estado")}</div><h3>${esc(m.title)}</h3><p><strong>${label}</strong>${isHouse?" · Misión de casa":" · Misión individual"}</p>${extra}${when?`<p class="muted">Aceptada: ${esc(when)}</p>`:""}</article>`;
+ box.innerHTML=[...grouped.values()].map(({mission:m,claims})=>{
+  const rows=claims.map(c=>{
+   const isHouse=m.target_type==="house";
+   const ids=isHouse?(c.member_ids||[]):[c.participant_id];
+   const names=ids.map(id=>peopleById[String(id)]?.name).filter(Boolean);
+   const who=isHouse?`Casa ${esc((typeof houseName==="function"&&c.house_id)?houseName(c.house_id):c.house_id||"")}`:esc(peopleById[String(c.participant_id)]?.name||"Participante desconocido");
+   const members=isHouse&&names.length?`<div class="muted">Integrantes: ${names.map(esc).join(", ")}</div>`:"";
+   const accepted=c.accepted_at?new Date(c.accepted_at).toLocaleString("es-ES"):"";
+   const proof=(m.validation_type==="witness"&&c.status==="witness_pending")?`<div class="mission-proof-review">${c.submission_text?`<p><strong>Explicación:</strong> ${esc(c.submission_text)}</p>`:""}${c.evidence_path?`<button class="small" data-view-mission-evidence="${esc(c.evidence_path)}">Ver fotografía</button>`:""}<button class="primary small" data-admin-approve-witness="${esc(c.id)}">Validar y conceder ${Number(m.points)||0} puntos</button></div>`:"";
+   return `<tr><td><strong>${who}</strong>${members}</td><td>${esc(statusNames[c.status]||c.status||"Sin estado")}${proof}</td><td>${esc(accepted)}</td></tr>`;
+  }).join("");
+  const access=m.access_type==="board"?"Tablón":m.access_type==="secret"?"Palabra secreta":"QR secreto";
+  return `<article class="card" style="margin:10px 0"><div class="tag">MISIÓN ${m.mission_number??"—"} · ${esc(access)} · ${claims.length} inscripción${claims.length===1?"":"es"}</div><h3>${esc(m.title)}</h3><div class="scroll"><table><thead><tr><th>Inscrito</th><th>Estado</th><th>Fecha de aceptación</th></tr></thead><tbody>${rows}</tbody></table></div></article>`;
  }).join("");
+ box.querySelectorAll("[data-view-mission-evidence]").forEach(b=>b.onclick=async()=>{const {data,error}=await sb.storage.from("mission-evidence").createSignedUrl(b.dataset.viewMissionEvidence,300);if(error){alert(error.message);return}window.open(data.signedUrl,"_blank","noopener")});
+ box.querySelectorAll("[data-admin-approve-witness]").forEach(b=>b.onclick=async()=>{
+  if(!confirm("¿Has revisado la prueba y quieres validarla y conceder los puntos sin esperar al testigo?"))return;
+  b.disabled=true;b.textContent="Validando…";
+  const {data,error}=await sb.rpc("admin_approve_witness_mission",{p_claim_id:b.dataset.adminApproveWitness});
+  if(error||!data?.ok){alert(error?.message||data?.message||"No se pudo validar la prueba.");b.disabled=false;b.textContent="Validar y conceder puntos";return}
+  alert(data.message||"Prueba validada y puntos concedidos.");
+  await loadMissionAdminMissionSignups();await loadData();
+ });
 }
 
 async function reviewMission(id,approve){const note=$("review-note-"+id)?.value||null;const {data,error}=await sb.rpc("admin_review_mission",{p_claim_id:id,p_approve:approve,p_note:note});if(error||!data?.ok){alert(error?.message||data?.message||"No se pudo revisar.");return}alert(data.message);await loadPendingMissions();await loadData()}
