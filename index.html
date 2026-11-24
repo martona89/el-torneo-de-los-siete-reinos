@@ -41,7 +41,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 @media(max-width:650px){
   nav{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;width:100%}
   nav>.nav-primary{min-width:0;padding:9px 4px;font-size:12px;line-height:1.15;min-height:42px;display:flex;align-items:center;justify-content:center;text-align:center}
-  nav>.tab[data-tab="participantes"],nav>.tab[data-tab="perfil"],nav>.tab[data-tab="premios"],nav>.tab[data-tab="quiz"],nav>.tab[data-tab="eltorneo"],nav>.tab[data-tab="guerras"],nav>.tab[data-tab="admin"]{display:none!important}
+  nav>.tab[data-tab="perfil"],nav>.tab[data-tab="premios"],nav>.tab[data-tab="quiz"],nav>.tab[data-tab="guerras"],nav>.tab[data-tab="admin"]{display:none!important}
   .nav-more{display:block;grid-column:1/-1;width:100%}
   .nav-more>summary{padding:8px 12px;font-size:12px;line-height:1.2;min-height:36px}
   .nav-more-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:7px 0 2px}
@@ -143,13 +143,13 @@ nav>.nav-primary{font-size:12px;padding:8px 9px;white-space:nowrap}
 </head>
 <body>
 <header><div class="head"><div><div class="brand">EL TORNEO DE LOS SIETE REINOS</div><div class="sub">CRÓNICAS · HONOR · LEALTAD</div></div>
-<nav class="no-print" aria-label="Navegación principal"><button class="tab active nav-primary" data-tab="clasificacion">Clasificación</button><button class="tab nav-primary" data-tab="misiones">Misiones<span id="missionAvailableDot" class="nav-notice-dot green hidden" aria-label="Hay misiones públicas disponibles" title="Hay misiones públicas disponibles"></span><span id="witnessRequestNavDot" class="nav-notice-dot yellow hidden" aria-label="Tienes solicitudes de testigo pendientes" title="Tienes solicitudes de testigo pendientes"></span><span id="missionReviewDot" class="nav-notice-dot red hidden" aria-label="Hay pruebas pendientes de revisión" title="Hay pruebas pendientes de revisión"></span></button><button class="tab nav-primary" data-tab="agenda">Agenda</button><details class="nav-more"><summary>Más <span aria-hidden="true">⌄</span></summary><div class="nav-more-menu"><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="eltorneo">El torneo</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="quiz">Quiz</button><button class="tab" data-tab="admin">Admin</button><button class="tab nav-extra" data-tab="participantes">Participantes</button><button class="tab nav-extra" data-tab="guerras">Hazañas</button></div></details></nav></div></header>
+<nav class="no-print" aria-label="Navegación principal"><button class="tab active nav-primary" data-tab="clasificacion">Clasificación</button><button class="tab nav-primary" data-tab="misiones">Misiones<span id="missionAvailableDot" class="nav-notice-dot green hidden" aria-label="Hay misiones públicas disponibles" title="Hay misiones públicas disponibles"></span><span id="witnessRequestNavDot" class="nav-notice-dot yellow hidden" aria-label="Tienes solicitudes de testigo pendientes" title="Tienes solicitudes de testigo pendientes"></span><span id="missionReviewDot" class="nav-notice-dot red hidden" aria-label="Hay pruebas pendientes de revisión" title="Hay pruebas pendientes de revisión"></span></button><button class="tab nav-primary" data-tab="agenda">Agenda</button><button class="tab nav-primary" data-tab="eltorneo">El torneo</button><details class="nav-more"><summary>Más <span aria-hidden="true">⌄</span></summary><div class="nav-more-menu"><button class="tab" data-tab="perfil">Mi perfil</button><button class="tab" data-tab="premios">Premios</button><button class="tab" data-tab="quiz">Quiz</button><button class="tab" data-tab="admin">Admin</button><button class="tab nav-extra" data-tab="guerras">Hazañas</button></div></details></nav></div></header>
 <main>
 <section id="clasificacion" class="section active">
 <div class="hero"><div class="eyebrow">Las casas han sido convocadas</div><h1>Que comience el torneo</h1><p>Quince nombres. Cuatro casas. Dos coronas por conquistar.</p></div>
 <div class="grid" style="align-items:start"><div id="individualBoard"></div><div id="houseBoard"></div></div>
 </section>
-<section id="participantes" class="section"><h2>Los participantes</h2><p class="muted">Consulta los perfiles de quienes compiten por los Siete Reinos.</p><div id="participantGrid" class="grid"></div></section>
+
 <section id="perfil" class="section"><div id="profileView" class="card"><h2>Mi perfil</h2><p class="muted">Entra escaneando tu QR personal o escribiendo tu palabra secreta.</p><div class="formgrid"><div><label>Palabra secreta</label><input id="profileAccessWord" maxlength="40" autocomplete="off" placeholder="Ej. SANGREDEDRAK"></div><div style="align-self:end"><button class="primary" id="enterByWord">Entrar en mi perfil</button></div></div><div id="profileAccessMsg"></div></div></section>
 
 <section id="quiz" class="section">
@@ -543,7 +543,7 @@ function cleanScoreDescription(s){return String(s?.description||"Puntos concedid
 function scoreShareForParticipant(score,participantId){return score.kind==="individual"&&String(score.player_id)===String(participantId)?Number(score.points||0):0}
 function houseTotals(){const out={stark:0,lannister:0,baratheon:0,targaryen:0};scores.filter(s=>s.kind==="collective").forEach(s=>{if(s.house_id in out)out[s.house_id]+=Number(s.points)});return out}
 async function loadData(){const [p,s,h]=await Promise.all([sb.from("participants").select("id,name,house_id,joined_day,nickname,presentation,motto,portrait_path").order("name"),sb.from("score_entries").select("*").order("created_at",{ascending:false}),sb.from("house_profiles").select("house_id,image_path")]);if(p.error)throw p.error;if(s.error)throw s.error;participants=p.data||[];scores=s.data||[];houseProfiles={};if(!h.error)(h.data||[]).forEach(x=>houseProfiles[x.house_id]=x.image_path);renderAll();renderTournamentScoring();if(isAdmin&&$("historyTable"))renderHistory()}
-function renderAll(){renderBoards();renderParticipants();renderPublicChronicles();fillSelectors()}
+function renderAll(){renderBoards();renderPublicChronicles();fillSelectors()}
 function renderTournamentScoring(){
   document.querySelectorAll(".tournament-test").forEach(test=>{
     const summary=test.querySelector(":scope > summary");
